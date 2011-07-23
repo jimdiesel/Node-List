@@ -13,6 +13,10 @@ function select(response, request) {
 
 }
 
+function create(response, request) {
+
+}
+
 function showPageLogin(response, request) {
 
 }
@@ -25,9 +29,15 @@ function showPageEdit(response, request) {
 
 }
 
+function showPageCreate(response, request) {
+
+}
+
 exports.login = login;
 exports.update = update;
 exports.select = select;
+exports.create = create;
 exports.showPageLogin = showPageLogin;
 exports.showPageUser = showPageUser;
 exports.showPageEdit = showPageEdit;
+exports.showPageCreate = showPageCreate;
