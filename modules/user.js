@@ -1,7 +1,11 @@
 var querystring = require("querystring"),
 	formidable = require("formidable"),
 	loginPage = require("../layouts/user/login"),
-	createPage = require("../layouts/user/create");
+	createPage = require("../layouts/user/create"),
+	userDb = require("../db/user");
+require("joose");
+require("joosex-namespace-depended");
+require("hash");
 
 function login(response, request, pageData) {
 	var form = new formidable.IncomingForm();
@@ -25,7 +29,27 @@ function select(response, request, pageData) {
 }
 
 function create(response, request, pageData) {
-
+	var user = {
+		id: '',
+		email: '',
+		password: '',
+		name: '',
+		created: '',
+		modified: '',
+		last_login: ''
+	}
+	var form = new formidable.IncomingForm();
+	form.parse(request, function(error, fields, files) {
+		// need to add form validation
+		user.email = fields["email"];
+		user.password = Hash.sha1(fields["password"]);
+		// forgot to add the 'name' field to the form,
+		// ergo we cannot process it. derp.
+		user = userDb.create(user);
+		response.writeHead(200, {"Content-Type": "text/plain"});
+		response.write("WOO HOO! Id: " + user.id);
+		response.end();
+	});
 }
 
 function showPageLogin(response, request) {
