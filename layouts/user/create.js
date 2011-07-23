@@ -1,11 +1,6 @@
 var base = require("../base");
 
-function build(response, request) {
-	var pageData = {
-		title: "Create Account - Node List",
-		metaDescription: "",
-		metaKeywords: ""
-	}
+function build(response, request, pageData) {
 	var html = '';
 	html = html + base.openPage(pageData);
 	var html = html + ''+
