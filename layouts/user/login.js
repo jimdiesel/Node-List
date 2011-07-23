@@ -2,13 +2,13 @@ var base = require("../base");
 
 function build(response, request) {
 	var pageData = {
-		title = "Log in - Node List",
-		metaDescription = "",
-		metaKeywords = ""
+		title:  "Log in - Node List",
+		metaDescription: "",
+		metaKeywords:  ""
 	}
 	var html = '';
-	html += base.openPage(pageData);
-	var html += ''+
+	html = html + base.openPage(pageData);
+	var html = html + ''+
 		'<form action="/user/login" method="post">'+
 		'<fieldset>'+
 		'<label>'+
@@ -22,8 +22,10 @@ function build(response, request) {
 		'<input type="submit" value="Login" />'+
 		'</fieldset>'
 		'</form>';
-	html += base.closePage(pageData);
-	response.
+	html = html + base.closePage(pageData);
+	response.writeHead(200, {"Content-Type": "text/html"});
+	response.write(html);
+	response.end();
 }
 
 exports.build = build;

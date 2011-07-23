@@ -1,5 +1,6 @@
 var querystring = require("querystring"),
-	formidable = require("formidable");
+	formidable = require("formidable"),
+	login = require("../layouts/user/login");
 
 function login(response, request) {
 
@@ -18,7 +19,7 @@ function create(response, request) {
 }
 
 function showPageLogin(response, request) {
-
+	login.build(response, request);
 }
 
 function showPageUser(response, request) {
