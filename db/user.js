@@ -21,7 +21,7 @@ function update(user) {
 	var values = [user.email, user.password, user.name, user.id];
 	client.query('UPDATE users SET email = ?, password = ?, name = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
 		if(error) {
-			console.log("Error updating user: " = error.message);
+			console.log("Error updating user: " + error.message);
 			client.end();
 			return;
 		}
@@ -31,7 +31,17 @@ function update(user) {
 }
 
 function deleteById(id) {
-
+	var client = base.init();
+	var values = [user.id];
+	client.query('DELETE FROM users WHERE id = ?', values, function(error, results) {
+		if(error) {
+			console.log("Error deleting user: " + error.message);
+			client.end();
+			return false;
+		}
+		console.log("Deleted: " + results.affectedRows + " row(s)");
+	});
+	return true;
 }
 
 function deleteByEmail(email) {
