@@ -2,7 +2,8 @@ var querystring = require("querystring"),
 	formidable = require("formidable"),
 	loginPage = require("../views/user/login"),
 	createPage = require("../views/user/create"),
-	userDb = require("../models/user");
+	userDb = require("../models/user"),
+	base = require("./base");
 require("joose");
 require("joosex-namespace-depended");
 require("hash");
@@ -10,15 +11,21 @@ require("hash");
 function login(response, request, pageData) {
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
-		// validate form data, then
-		// put code to hash password and check the database here
-		// call loginPage.build if email/password are invalid
-		// otherwise redirect to /user
-		// fields to check are:
-		// email
-		// password
-		userDb.selectByEmail(fields["email"]);
-		loginPage.build(response, request, pageData);
+		userDb.selectByEmail(fields["email"], function (user) {
+			if (user == null || user == 'undefined') {
+				pageData.message = "Email address does not exist. Please try another email address.";
+				loginPage.build(response, request, pageData);
+			} else if (Hash.sha1(fields["password"]) != user.password) {
+				pageData.message = "Password is incorrect. Please try again.";
+				loginPage.build(response, request, pageData);
+			} else {
+				// set login cookie and redirect to /user
+				// for now just display a success message
+				response.writeHead(200, {"Content-Type": "text/plain"});
+				response.write("Login successful");
+				response.end();
+			}
+		});
 	});
 }
 
@@ -31,7 +38,7 @@ function select(response, request, pageData) {
 }
 
 function create(response, request, pageData) {
-	var user = new User()
+	var user = new User();
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
 		// need to add form validation
@@ -47,13 +54,12 @@ function create(response, request, pageData) {
 }
 
 function showPageLogin(response, request) {
-	var pageData = {
-		title:  "Log in - Node List",
-		metaDescription: "",
-		metaKeywords:  ""
-	}
+	var pageData = new base.PageData();
+	pageData.title = "Log In - Node List";
+
 	// not sure if this is the best way to do this, will revisit
 	if (request.method.toLowerCase() == 'post') {
+		console.log("Post data detected. Attempting to log in.");
 		login(response, request, pageData);
 	} else {
 		loginPage.build(response, request, pageData);
@@ -69,11 +75,9 @@ function showPageEdit(response, request) {
 }
 
 function showPageCreate(response, request) {
-	var pageData = {
-		title: "Create Account - Node List",
-		metaDescription: "",
-		metaKeywords: ""
-	}
+	var pageData = new base.PageData();
+	pageData.title = "Create Account - Node List";
+
 	if (request.method.toLowerCase() == 'post') {
 		create(response, request, pageData);
 	} else {

@@ -74,14 +74,28 @@ function selectById(id) {
 			return;
 		}
 		console.log("Selected: " + results.affectedRows + " row(s)");
-		console.log("Object:");
-		console.log(results);
 	});
 	return true;
 }
 
-function selectByEmail(email) {
-
+function selectByEmail(email, callback) {
+	var client = base.init();
+	var values = [email];
+	var user;
+	client.query('SELECT id,email,password,name,created,modified,last_login FROM users WHERE email = ?', values, function(error, results) {
+		if(error) {
+			console.log("Error selecting user: " + error.message);
+			client.end();
+			return;
+		}
+		console.log("Selected: " + results.affectedRows + " rows(s)");
+		if (results.length > 0) {
+			user = results[0];
+		}
+		if (callback && typeof(callback) == "function") {
+			callback(user);
+		}
+	});
 }
 
 exports.create = create;

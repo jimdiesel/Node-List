@@ -5,6 +5,7 @@ var sys = require("sys");
 var Client = require("mysql").Client;
 
 function init() {
+	console.log("Initializing database connection.");
 	var client = new Client();
 
 	client.user = 'root';
@@ -24,6 +25,7 @@ function init() {
 			return;
 		}
 	});
+	console.log("Database connection initialized successfully.");
 	return client;
 }
 
