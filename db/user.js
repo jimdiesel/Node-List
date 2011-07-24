@@ -17,7 +17,17 @@ function create(user) {
 }
 
 function update(user) {
-
+	var client = base.init();
+	var values = [user.email, user.password, user.name, user.id];
+	client.query('UPDATE users SET email = ?, password = ?, name = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
+		if(error) {
+			console.log("Error updating user: " = error.message);
+			client.end();
+			return;
+		}
+		console.log("Updated: " + results.affectedRows + " row(s)");
+	});
+	return user;
 }
 
 function deleteById(id) {
