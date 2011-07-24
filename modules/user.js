@@ -29,15 +29,7 @@ function select(response, request, pageData) {
 }
 
 function create(response, request, pageData) {
-	var user = {
-		id: '',
-		email: '',
-		password: '',
-		name: '',
-		created: '',
-		modified: '',
-		last_login: ''
-	}
+	var user = new User()
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
 		// need to add form validation
@@ -87,6 +79,16 @@ function showPageCreate(response, request) {
 	}
 }
 
+function User() {
+	this.id = "";
+	this.email = "";
+	this.password = "";
+	this.name = "";
+	this.created = "";
+	this.modified = "";
+	this.last_login = "";
+}
+
 exports.login = login;
 exports.update = update;
 exports.select = select;
@@ -95,3 +97,4 @@ exports.showPageLogin = showPageLogin;
 exports.showPageUser = showPageUser;
 exports.showPageEdit = showPageEdit;
 exports.showPageCreate = showPageCreate;
+exports.User = User;
