@@ -7,6 +7,10 @@ function build(response, request, pageData) {
 		'<form action="/user/create" method="post">'+
 		'<fieldset>'+
 		'<label>'+
+		'Name: '+
+		'<input type="text" name="name" />'+
+		'</label><br />'+
+		'<label>'+
 		'Email Address: '+
 		'<input type="text" name="email" />'+
 		'</label><br />'+

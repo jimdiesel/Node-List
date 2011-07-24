@@ -44,8 +44,7 @@ function create(response, request, pageData) {
 		// need to add form validation
 		user.email = fields["email"];
 		user.password = Hash.sha1(fields["password"]);
-		// forgot to add the 'name' field to the form,
-		// ergo we cannot process it. derp.
+		user.name = fields["name"];
 		user = userDb.create(user);
 		response.writeHead(200, {"Content-Type": "text/plain"});
 		response.write("WOO HOO! Id: " + user.id);
