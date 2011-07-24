@@ -32,7 +32,7 @@ function update(user) {
 
 function deleteById(id) {
 	var client = base.init();
-	var values = [user.id];
+	var values = [id];
 	client.query('DELETE FROM users WHERE id = ?', values, function(error, results) {
 		if(error) {
 			console.log("Error deleting user: " + error.message);
@@ -45,7 +45,17 @@ function deleteById(id) {
 }
 
 function deleteByEmail(email) {
-
+	var client = base.init();
+	var values = [email];
+	client.query('DELETE FROM users WHERE email = ?', values, function(error, results) {
+		if(error) {
+			console.log("Error deleting user: " + error.message);
+			client.end();
+			return false;
+		}
+		console.log("Deleted: " + results.affectedRows + " row(s)");
+	});
+	return true;
 }
 
 function selectById(id) {
