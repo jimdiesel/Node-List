@@ -1,6 +1,6 @@
 var server = require("./server");
 var router = require("./router");
-var user = require("./modules/user");
+var user = require("./controllers/user");
 
 var handle = {}
 handle["/"] = user.showPageUser;

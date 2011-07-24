@@ -1,8 +1,8 @@
 var querystring = require("querystring"),
 	formidable = require("formidable"),
-	loginPage = require("../layouts/user/login"),
-	createPage = require("../layouts/user/create"),
-	userDb = require("../db/user");
+	loginPage = require("../views/user/login"),
+	createPage = require("../views/user/create"),
+	userDb = require("../models/user");
 require("joose");
 require("joosex-namespace-depended");
 require("hash");
@@ -18,6 +18,7 @@ function login(response, request, pageData) {
 		// email
 		// password
 		userDb.selectByEmail(fields["email"]);
+		loginPage.build(response, request, pageData);
 	});
 }
 
