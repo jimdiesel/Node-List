@@ -3,7 +3,9 @@ var querystring = require("querystring"),
 	loginPage = require("../views/user/login"),
 	createPage = require("../views/user/create"),
 	userDb = require("../models/user"),
-	base = require("./base");
+	base = require("./base"),
+	http = require("http"),
+	session = require("./lib/core").magicSession();
 require("joose");
 require("joosex-namespace-depended");
 require("hash");
@@ -19,10 +21,8 @@ function login(response, request, pageData) {
 				pageData.message = "Password is incorrect. Please try again.";
 				loginPage.build(response, request, pageData);
 			} else {
-				// set login cookie and redirect to /user
-				// for now just display a success message
-				response.writeHead(200, {"Content-Type": "text/plain"});
-				response.write("Login successful");
+				request.session.data.user = user.id;
+				response.writeHead(302, {"Location": "/user"});
 				response.end();
 			}
 		});
@@ -46,8 +46,8 @@ function create(response, request, pageData) {
 		user.password = Hash.sha1(fields["password"]);
 		user.name = fields["name"];
 		user = userDb.create(user);
-		response.writeHead(200, {"Content-Type": "text/plain"});
-		response.write("WOO HOO! Id: " + user.id);
+		request.session.data.user = user.id;
+		response.writeHead(302, {"Location": "/user"});
 		response.end();
 	});
 }
@@ -66,7 +66,15 @@ function showPageLogin(response, request) {
 }
 
 function showPageUser(response, request) {
+	var pageData = new base.PageData();
 
+	if (request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined') {
+		// check user id against database
+		// show user home page
+	} else {
+		response.writeHead(302, {"Location": "/user/login"});
+		response.end();
+	}
 }
 
 function showPageEdit(response, request) {
