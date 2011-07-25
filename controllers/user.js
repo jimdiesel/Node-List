@@ -3,6 +3,7 @@ var querystring = require("querystring"),
 	loginPage = require("../views/user/login"),
 	createPage = require("../views/user/create"),
 	userPage = require("../views/user/index"),
+	editPage = require("../views/user/edit"),
 	userDb = require("../models/user"),
 	base = require("./base"),
 	http = require("http"),
@@ -85,7 +86,25 @@ function showPageUser(response, request) {
 }
 
 function showPageEdit(response, request) {
+	var pageData = new base.PageData();
+	pageData.title = "Edit Profile - Node List";
 
+	if (request.session.data.user != null && request.session.data.user != 'undefined' && request.session.data.user != '') {
+		if (request.method.toLowerCase() == 'post') {
+			update(response, request, pageData);
+		} else {
+			userDb.selectById(request.session.data.user, function(user) {
+				if (user == null || user == 'undefined') {
+					response.writeHead(302, {"Location": "/user/login"});
+					response.end();
+				}
+				editPage.build(response, request, pageData, user);
+			});
+		}
+	} else {
+		response.writeHead(302, {"Location": "/user/login"});
+		response.end();
+	}
 }
 
 function showPageCreate(response, request) {
