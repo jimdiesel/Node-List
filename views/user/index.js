@@ -7,6 +7,7 @@ function build(response, request, pageData) {
 		'<h1>Welcome, </h1>'+ // need to pass user's name to this method
 		'<ul>'+
 		'<li><a href="/lists">View my lists</a></li>'+
+		'<li><a href="/user/edit">Edit my profile</a></li>'+
 		'</ul>';
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});

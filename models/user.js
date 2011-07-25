@@ -64,18 +64,23 @@ function deleteByEmail(email) {
 	return true;
 }
 
-function selectById(id) {
+function selectById(id, callback) {
 	var client = base.init();
 	var values = [id];
+	var user;
 	client.query('SELECT id,email,password,name,created,modified,last_login FROM users WHERE id = ?', values, function(error, results) {
 		if(error) {
 			console.log("Error selecting user: " + error.message);
 			client.end();
 			return;
 		}
-		console.log("Selected: " + results.affectedRows + " row(s)");
+		if (results.length > 0) {
+			user = results[0];
+		}
+		if (callback && typeof(callback) == "function") {
+			callback(user);
+		}
 	});
-	return true;
 }
 
 function selectByEmail(email, callback) {
@@ -88,7 +93,6 @@ function selectByEmail(email, callback) {
 			client.end();
 			return;
 		}
-		console.log("Selected: " + results.affectedRows + " rows(s)");
 		if (results.length > 0) {
 			user = results[0];
 		}

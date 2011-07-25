@@ -2,10 +2,11 @@ var querystring = require("querystring"),
 	formidable = require("formidable"),
 	loginPage = require("../views/user/login"),
 	createPage = require("../views/user/create"),
+	userPage = require("../views/user/index"),
 	userDb = require("../models/user"),
 	base = require("./base"),
 	http = require("http"),
-	session = require("./lib/core").magicSession();
+	session = require("../node_modules/sesh/lib/core").magicSession();
 require("joose");
 require("joosex-namespace-depended");
 require("hash");
@@ -69,8 +70,14 @@ function showPageUser(response, request) {
 	var pageData = new base.PageData();
 
 	if (request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined') {
-		// check user id against database
-		// show user home page
+		userDb.selectById(request.session.data.user, function(user) {
+			if (user == null || user == 'undefined') {
+				response.writeHead(302, {"Location": "/user/login"});
+				response.end();
+			}
+			pageData.title = "Home - Node List";
+			userPage.build(response, request, pageData);
+		});
 	} else {
 		response.writeHead(302, {"Location": "/user/login"});
 		response.end();
