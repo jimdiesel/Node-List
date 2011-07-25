@@ -53,10 +53,6 @@ function update(response, request, pageData) {
 	});
 }
 
-function select(response, request, pageData) {
-
-}
-
 function create(response, request, pageData) {
 	var user = new User();
 	var form = new formidable.IncomingForm();
@@ -95,7 +91,7 @@ function showPageUser(response, request) {
 				response.end();
 			}
 			pageData.title = "Home - Node List";
-			userPage.build(response, request, pageData);
+			userPage.build(response, request, pageData, user);
 		});
 	} else {
 		response.writeHead(302, {"Location": "/user/login"});
@@ -148,7 +144,6 @@ function User() {
 
 exports.login = login;
 exports.update = update;
-exports.select = select;
 exports.create = create;
 exports.showPageLogin = showPageLogin;
 exports.showPageUser = showPageUser;

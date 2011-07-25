@@ -4,6 +4,7 @@ function build(response, request, pageData) {
 	var html = '';
 	html = html + base.openPage(pageData);
 	html = html + ''+
+		'<p class="message">' + pageData.message + '</p>'+
 		'<form action="/user/login" method="post">'+
 		'<fieldset>'+
 		'<label>'+

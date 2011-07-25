@@ -4,6 +4,7 @@ function build(response, request, pageData, user) {
 	var html = '';
 	html = html + base.openPage(pageData);
 	html = html +
+		'<a href="/user">&laquo; Back</a>'+
 		'<p class="message">' + pageData.message + '</p>'+
 		'<form action="/user/edit" method="post">'+
 		'<fieldset>'+
