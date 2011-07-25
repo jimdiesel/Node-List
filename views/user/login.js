@@ -3,7 +3,7 @@ var base = require("../base");
 function build(response, request, pageData) {
 	var html = '';
 	html = html + base.openPage(pageData);
-	var html = html + ''+
+	html = html + ''+
 		'<form action="/user/login" method="post">'+
 		'<fieldset>'+
 		'<label>'+
