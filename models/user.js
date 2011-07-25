@@ -16,10 +16,17 @@ function create(user) {
 	return user;
 }
 
-function update(user) {
+function update(user, callback) {
 	var client = base.init();
-	var values = [user.email, user.password, user.name, user.id];
-	client.query('UPDATE users SET email = ?, password = ?, name = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
+	var values = [user.email, user.name, user.id];
+	console.log("user.password = " + user.password);
+	var query = 'UPDATE users SET email = ?, name = ?, modified = NOW() WHERE id = ?';
+	if (user.password != '') {
+		var values = [user.email, user.password, user.name, user.id];
+		var query = 'UPDATE users SET email = ?, password = ?, name = ?, modified = NOW() WHERE id = ?';
+	}
+	console.log("Query to be run: " + query);
+	client.query(query, values, function(error, results) {
 		if(error) {
 			console.log("Error updating user: " + error.message);
 			client.end();
@@ -27,7 +34,9 @@ function update(user) {
 		}
 		console.log("Updated: " + results.affectedRows + " row(s)");
 	});
-	return user;
+	if (callback && typeof(callback) == "function") {
+		callback(true);
+	}
 }
 
 function deleteById(id) {

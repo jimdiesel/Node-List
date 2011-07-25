@@ -32,7 +32,25 @@ function login(response, request, pageData) {
 }
 
 function update(response, request, pageData) {
-
+	var user = new User();
+	var form = new formidable.IncomingForm();
+	form.parse(request, function(error, fields, files) {
+		// add form validation later
+		user.id = request.session.data.user;
+		user.email = fields["email"];
+		user.name = fields["name"];
+		if (fields["password"] != "") {
+			user.password = Hash.sha1(fields["password"]);
+		}
+		userDb.update(user, function(success) {
+			if (success) {
+				pageData.message = "Update successful";
+			} else {
+				pageData.message = "Error updating your profile. Please try again";
+			}
+			editPage.build(response, request, pageData, user);
+		});
+	});
 }
 
 function select(response, request, pageData) {
