@@ -1,4 +1,10 @@
-var listPage = require("../views/list/index");
+var listPage = require("../views/list/index"),
+	base = require("./base"),
+	listDb = require("../models/list"),
+	formidable = require("formidable"),
+	listPage = require("../views/list/index");
+	http = require("http"),
+	session = require("../node_modules/sesh/lib/core").magicSession();
 
 function create(response, request, pageData) {
 
@@ -13,7 +19,17 @@ function deleteList(response, request, pageData) {
 }
 
 function showPageList(response, request) {
+	var pageData = new base.PageData();
+	pageData.title = "Your Lists - Node List";
 
+	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.data.user != "") {
+		listDb.selectByUserId(request.session.data.user, function(lists) {
+			listPage.build(response, request, pageData, lists);
+		});
+	} else {
+		response.writeHead(302, {"Location": "/user/login"});
+		response.end();
+	}
 }
 
 function showPageCreate(response, request) {
