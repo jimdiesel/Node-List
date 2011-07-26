@@ -44,7 +44,7 @@ function List() {
 	this.id = "";
 	this.user_id = "";
 	this.name = "";
-	this.order = "";
+	this.order_by = "";
 	this.created = "";
 	this.modified = "";
 }

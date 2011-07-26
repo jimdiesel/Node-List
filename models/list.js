@@ -1,9 +1,9 @@
-var base = require("../base");
+var base = require("./base");
 
-function create(list, callback) {
+function create(list, user_id, callback) {
 	var client = base.init();
-	var values = [list.name, list.order];
-	client.query('INSERT INTO lists (name, order, created, modified) VALUES (?, ?, NOW(), NOW())', values, function(error, results) {
+	var values = [user_id, list.name, list.order_by];
+	client.query('INSERT INTO lists (user_id, name, order_by, created, modified) VALUES (?, ?, ?, NOW(), NOW())', values, function(error, results) {
 		if (error) {
 			console.log("Error creating list: " + erorr.message);
 			client.end();
@@ -20,8 +20,8 @@ function create(list, callback) {
 
 function update(list, callback) {
 	var client = base.init();
-	var values = [list.name, list.order, list.id];
-	client.query('UPDATE lists SET name = ?, order = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
+	var values = [list.name, list.order_by, list.id];
+	client.query('UPDATE lists SET name = ?, order_by = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
 		if (error) {
 			console.log("Error updating list: " + error.message);
 			client.end();
@@ -57,7 +57,7 @@ function selectById(id, callback) {
 	var client = base.init();
 	var values = [id];
 	var list;
-	client.query('SELECT id,user_id,name,order,created,modified FROM lists WHERE id = ?', values, function(error, results) {
+	client.query('SELECT id,user_id,name,order_by,created,modified FROM lists WHERE id = ?', values, function(error, results) {
 		if (error) {
 			console.log("Error selecting list: " + error.message);
 			client.end();
@@ -76,7 +76,7 @@ function selectByUserId(userId, callback) {
 	var client = base.init();
 	var values = [userId];
 	var lists;
-	client.query('SELECT id,user_id,name,order,created,modified FROM lists WHERE user_id = ?', values, function(error, results) {
+	client.query('SELECT id,user_id,name,order_by,created,modified FROM lists WHERE user_id = ?', values, function(error, results) {
 		if (error) {
 			console.log("Error selecting lists: " + error.message);
 			client.end();
