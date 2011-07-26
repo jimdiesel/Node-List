@@ -19,7 +19,19 @@ function create(list, callback) {
 }
 
 function update(list, callback) {
-	
+	var client = base.init();
+	var values = [list.name, list.order, list.id];
+	client.query('UPDATE lists SET name = ?, order = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
+		if (error) {
+			console.log("Error updating list: " + error.message);
+			client.end();
+			return;
+		}
+		console.log("Updated: " + results.affectedRows + " row(s)");
+	});
+	if (callback && typeof(callback) == "function") {
+		callback(true);
+	}
 }
 
 function deleteById(id, callback) {
