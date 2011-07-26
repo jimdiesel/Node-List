@@ -2,7 +2,6 @@ var listPage = require("../views/list/index"),
 	base = require("./base"),
 	listDb = require("../models/list"),
 	formidable = require("formidable"),
-	listPage = require("../views/list/index");
 	http = require("http"),
 	session = require("../node_modules/sesh/lib/core").magicSession();
 
@@ -32,6 +31,10 @@ function showPageList(response, request) {
 	}
 }
 
+function showPageDetail(response, request) {
+
+}
+
 function showPageCreate(response, request) {
 
 }
@@ -53,5 +56,6 @@ exports.create = create;
 exports.update = update;
 exports.deleteList = deleteList;
 exports.showPageList = showPageList;
+exports.showPageDetail = showPageDetail;
 exports.showPageCreate = showPageCreate;
 exports.showPageEdit = showPageEdit;
