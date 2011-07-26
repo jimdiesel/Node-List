@@ -24,6 +24,15 @@ function showPageEdit(response, request) {
 
 }
 
+function List() {
+	this.id = "";
+	this.user_id = "";
+	this.name = "";
+	this.order = "";
+	this.created = "";
+	this.modified = "";
+}
+
 exports.create = create;
 exports.update = update;
 exports.deleteList = deleteList;
