@@ -34,16 +34,6 @@ CREATE TABLE `lists` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `lists`
---
-
-LOCK TABLES `lists` WRITE;
-/*!40000 ALTER TABLE `lists` DISABLE KEYS */;
-INSERT INTO `lists` VALUES (1,1,'Test List 1',1,'0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,1,'Test List 2',2,'0000-00-00 00:00:00','0000-00-00 00:00:00');
-/*!40000 ALTER TABLE `lists` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tasks`
 --
 
@@ -64,15 +54,6 @@ CREATE TABLE `tasks` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tasks`
---
-
-LOCK TABLES `tasks` WRITE;
-/*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `users`
 --
 
@@ -90,16 +71,6 @@ CREATE TABLE `users` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'nofxbassist1011@gmail.com','f04cd125c745c0463a781b21047810097f421127','Jimmy','2011-07-23 01:38:18','2011-07-24 23:24:35','2011-07-23 01:38:18');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -110,4 +81,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-07-25 23:24:03
+-- Dump completed on 2011-07-25 23:38:58
