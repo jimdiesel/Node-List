@@ -6,9 +6,9 @@ function build(response, request, pageData, lists) {
 	html = html +
 		'<h1>Your Lists</h1>'+
 		'<ul>';
-	for (list in lists) {
+	for (var i = 0;i < lists.length;i++) {
 		html = html +
-			'<li><a href="/lists/' + list.id + '">' + list.name + '</a></li>';
+			'<li><a href="/lists/' + lists[i].id + '">' + lists[i].name + '</a></li>';
 	}
 	html = html +
 		'</ul>'+
