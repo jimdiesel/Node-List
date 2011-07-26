@@ -4,7 +4,7 @@ function build(response, request, pageData, user) {
 	var html = '';
 	html = html + base.openPage(pageData);
 	html = html +
-		'<h1>Welcome, ' + user.name + '</h1>'+ // need to pass user's name to this method
+		'<h1>Welcome, ' + user.name + '</h1>'+
 		'<ul>'+
 		'<li><a href="/lists">View my lists</a></li>'+
 		'<li><a href="/user/edit">Edit my profile</a></li>'+
