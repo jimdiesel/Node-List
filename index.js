@@ -40,11 +40,6 @@ router.get('/', function(request, response, path) {
 .post('/lists/add', function(request, response, path) {
 	list.showPageCreate(response, request);
 })
-.get('/test', function(request, response, path) {
-	response.writeHead(200, {"Content-Type": "text/html"});
-	response.write("<h1>O Hai!</h1>");
-	response.end();
-})
 .notFound(function(request, response) {
 	response.writeHead(404, {"Content-Type": "text/html"});
 	response.write("<h1>You done goofed - Page not found</h1>");
