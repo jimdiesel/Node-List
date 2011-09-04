@@ -2,14 +2,53 @@ var server = require("./server");
 var router = require("./router");
 var user = require("./controllers/user");
 var list = require("./controllers/list");
+var http = require("http"),
+	router = require("choreographer").router();
 
-var handle = {}
-handle["/"] = user.showPageUser;
-handle["/user"] = user.showPageUser;
-handle["/user/edit"] = user.showPageEdit;
-handle["/user/login"] = user.showPageLogin;
-handle["/user/create"] = user.showPageCreate;
-handle["/lists"] = list.showPageList;
-handle["/lists/add"] = list.showPageCreate;
+router.get('/', function(request, response, path) {
+	user.showPageUser(response, request);
+})
+.get('/user', function(request, response, path) {
+	user.showPageUser(response, request);
+})
+.get('/user/edit', function(request, response, path) {
+	user.showPageEdit(response, request);
+})
+// use showPage function to handle POST request for now
+// refactor to go directly to the update function eventually
+.post('/user/edit', function(request, response, path) {
+	user.showPageEdit(response, request);
+})
+.get('/user/login', function(request, response, path) {
+	user.showPageLogin(response, request);
+})
+.post('/user/login', function(request, response, path) {
+	user.showPageLogin(response, request);
+})
+.get('/user/create', function(request, response, path) {
+	user.showPageCreate(response, request);
+})
+.post('/user/create', function(request, response, path) {
+	user.showPageCreate(response, request);
+})
+.get('/lists', function(request, response, path) {
+	list.showPageList(response, request);
+})
+.get('/lists/add', function(request, response, path) {
+	list.showPageCreate(response, request);
+})
+.post('/lists/add', function(request, response, path) {
+	list.showPageCreate(response, request);
+})
+.get('/test', function(request, response, path) {
+	response.writeHead(200, {"Content-Type": "text/html"});
+	response.write("<h1>O Hai!</h1>");
+	response.end();
+})
+.notFound(function(request, response) {
+	response.writeHead(404, {"Content-Type": "text/html"});
+	response.write("<h1>You done goofed - Page not found</h1>");
+	response.end();
+});
 
-server.start(router.route, handle);
+http.createServer(router).listen(8888);
