@@ -10,5 +10,6 @@ handle["/user/edit"] = user.showPageEdit;
 handle["/user/login"] = user.showPageLogin;
 handle["/user/create"] = user.showPageCreate;
 handle["/lists"] = list.showPageList;
+handle["/lists/add"] = list.showPageCreate;
 
 server.start(router.route, handle);

@@ -5,11 +5,13 @@ function build(response, request, pageData) {
 	html = html + base.openPage(pageData);
 	html = html +
 		'<h1>Create List</h1>'+
-		'<form action="/list/add" method="post">'+
+		'<p class="message">' + pageData.message + '</p>'+
+		'<form action="/lists/add" method="post">'+
 		'<label>'+
 		'List Name: '+
 		'<input type="text" name="name" />'+
 		'</label>'+
+		'<input type="submit" value="Create" />'+
 		'</form>';
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});
