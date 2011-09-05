@@ -2,6 +2,7 @@ var server = require("./server");
 var router = require("./router");
 var user = require("./controllers/user");
 var list = require("./controllers/list");
+var task = require("./controllers/task");
 var http = require("http"),
 	router = require("choreographer").router();
 
@@ -51,11 +52,11 @@ router.get('/', function(request, response, path) {
 .post('/lists/*/update', function(request, response, listId) {
 	list.showPageEdit(response, request, listId);
 })
-.get('/lists/*/add', function(request, response, list) {
-	// add task page
+.get('/lists/*/add', function(request, response, listId) {
+	task.showPageCreate(response, request, listId);
 })
-.post('/lists/*/add', function(request, response, list) {
-	// add task page
+.post('/lists/*/add', function(request, response, listId) {
+	task.showPageCreate(response, request, listId);
 })
 .get('/lists/*/*', function(request, response, list, task) {
 	// task detail page
