@@ -1,17 +1,18 @@
 var base = require("../base");
 
-function build(response, request, pageData, tasks) {
+function build(response, request, pageData, listName, tasks) {
+	console.log("tasks = " + tasks);
 	var html = "";
 	html = html + base.openPage(pageData);
 	html = html +
-		'<h1>Tasks to Complete</h1>'+ // TODO: pull in name of list
+		'<h1>Tasks for ' + listName + '</h1>'+
 		'<ul>';
 	for (var i = 0;i < tasks.length;i++) {
 		html = html +
 			'<li>'+
 			'<label>'+
-			'<input type="checkbox" name="' + task.id + '" />'+
-			' ' + task.name+
+			'<input type="checkbox" name="' + tasks[i].id + '" />'+
+			' ' + tasks[i].name+
 			'</label>'+
 			'</li>';
 	}

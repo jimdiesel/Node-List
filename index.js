@@ -42,8 +42,8 @@ router.get('/', function(request, response, path) {
 .post('/lists/add', function(request, response, path) {
 	list.showPageCreate(response, request);
 })
-.get('/lists/*', function(request, response, list) {
-	// list detail page
+.get('/lists/*', function(request, response, listId) {
+	list.showPageDetail(response, request, listId);
 })
 .get('/lists/*/update', function(request, response, listId) {
 	list.showPageEdit(response, request, listId);

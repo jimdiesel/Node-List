@@ -1,8 +1,10 @@
 var listPage = require("../views/list/index"),
 	createPage = require("../views/list/create"),
 	updatePage = require("../views/list/update"),
+	detailPage = require("../views/list/detail"),
 	base = require("./base"),
 	listDb = require("../models/list"),
+	taskDb = require("../models/task"),
 	formidable = require("formidable"),
 	http = require("http"),
 	session = require("../node_modules/sesh/lib/core").magicSession();
@@ -67,8 +69,22 @@ function showPageList(response, request) {
 	}
 }
 
-function showPageDetail(response, request) {
+function showPageDetail(response, request, listId) {
+	var pageData = new base.PageData();
+	pageData.title = "Incomplete Tasks - Node List";
 
+	if (request.session.data.user != null && request.session.data.user != 'undefined' && request.session.data.user != "") {
+		var listName = "";
+		taskDb.selectByListId(listId, function(tasks) {
+			listDb.selectById(listId, function(list) {
+				listName = list.name;
+				detailPage.build(response, request, pageData, listName, tasks);
+			});
+		});
+	} else {
+		response.writeHead(302, {"Location": "/user/login"});
+		response.end();
+	}
 }
 
 function showPageCreate(response, request) {
