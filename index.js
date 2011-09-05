@@ -5,6 +5,8 @@ var list = require("./controllers/list");
 var http = require("http"),
 	router = require("choreographer").router();
 
+router.ignoreCase = true;
+
 router.get('/', function(request, response, path) {
 	user.showPageUser(response, request);
 })
@@ -39,6 +41,18 @@ router.get('/', function(request, response, path) {
 })
 .post('/lists/add', function(request, response, path) {
 	list.showPageCreate(response, request);
+})
+.get('/lists/*', function(request, response, list) {
+	// list detail page
+})
+.get('/lists/*/add', function(request, response, list) {
+	// add task page
+})
+.post('/lists/*/add', function(request, response, list) {
+	// add task page
+})
+.get('/lists/*/*', function(request, response, list, task) {
+	// task detail page
 })
 .notFound(function(request, response) {
 	response.writeHead(404, {"Content-Type": "text/html"});
