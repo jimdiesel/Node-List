@@ -74,11 +74,9 @@ function showPageDetail(response, request, listId) {
 	pageData.title = "Incomplete Tasks - Node List";
 
 	if (request.session.data.user != null && request.session.data.user != 'undefined' && request.session.data.user != "") {
-		var listName = "";
 		taskDb.selectByListId(listId, function(tasks) {
 			listDb.selectById(listId, function(list) {
-				listName = list.name;
-				detailPage.build(response, request, pageData, listName, tasks);
+				detailPage.build(response, request, pageData, list, tasks);
 			});
 		});
 	} else {

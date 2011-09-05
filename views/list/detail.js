@@ -1,11 +1,12 @@
 var base = require("../base");
 
-function build(response, request, pageData, listName, tasks) {
+function build(response, request, pageData, list, tasks) {
 	console.log("tasks = " + tasks);
 	var html = "";
 	html = html + base.openPage(pageData);
 	html = html +
-		'<h1>Tasks for ' + listName + '</h1>'+
+		'<h1>Tasks for ' + list.name + '</h1>'+
+		'<p><a href="/lists/' + list.id + '/add">Add a Task</a></p>'+
 		'<ul>';
 	for (var i = 0;i < tasks.length;i++) {
 		html = html +
