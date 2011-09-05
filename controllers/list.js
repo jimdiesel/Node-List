@@ -32,7 +32,8 @@ function update(response, request, pageData) {
 }
 
 function deleteList(response, request, pageData) {
-
+	// in list model, call delete function
+	// in task modle, call delete by list id function
 }
 
 function showPageList(response, request) {

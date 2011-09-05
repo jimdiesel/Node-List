@@ -1,7 +1,8 @@
 var base = require("./base");
 
 function create(task, callback) {
-
+	var client = base.init();
+	
 }
 
 function update(task, callback) {
