@@ -13,7 +13,7 @@ function build(response, request, pageData, list, tasks) {
 			'<li>'+
 			'<label>'+
 			'<input type="checkbox" name="' + tasks[i].id + '" />'+
-			' ' + tasks[i].name+
+			' <a href="/lists/' + list.id + '/' + tasks[i].id + '">' + tasks[i].name + '</a>'+
 			'</label>'+
 			'</li>';
 	}
