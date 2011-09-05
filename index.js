@@ -45,6 +45,12 @@ router.get('/', function(request, response, path) {
 .get('/lists/*', function(request, response, list) {
 	// list detail page
 })
+.get('/lists/*/update', function(request, response, list) {
+	list.showPageUpdate(response, request);
+})
+.post('/lists/*/update', function(request, response, list) {
+	list.showPageUpdate(response, request);
+})
 .get('/lists/*/add', function(request, response, list) {
 	// add task page
 })
