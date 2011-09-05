@@ -1,5 +1,6 @@
 var listPage = require("../views/list/index"),
 	createPage = require("../views/list/create"),
+	updatePage = require("../views/list/update"),
 	base = require("./base"),
 	listDb = require("../models/list"),
 	formidable = require("formidable"),
@@ -27,8 +28,24 @@ function create(response, request, pageData) {
 	});
 }
 
-function update(response, request, pageData) {
-
+function update(response, request, pageData, listId) {
+	var list = new List();
+	var form = new formidable.IncomingForm();
+	form.parse(request, function(error, fields, files) {
+		// add form validation
+		// name field is required
+		list.id = listId;
+		list.user_id = request.session.data.user;
+		list.name = fields["name"];
+		listDb.update(list, function(success) {
+			if (success) {
+				pageData.message = "List updated successfully";
+			} else {
+				pageData.message = "Error updating list. Please try again";
+			}
+			updatePage.build(response, request, pageData, list);
+		});
+	});
 }
 
 function deleteList(response, request, pageData) {
@@ -69,8 +86,24 @@ function showPageCreate(response, request) {
 	}
 }
 
-function showPageEdit(response, request) {
+function showPageEdit(response, request, listId) {
+	var pageData = new base.PageData();
+	pageData.title = "Edit List - Node List";
 
+	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.data.user != "") {
+		if (request.method.toLowerCase() == "post") {
+			update(response, request, pageData, listId);
+		} else {
+			listDb.selectById(listId, function(list) {
+				if (list == null || list == 'undefined') {
+					response.writeHead(302, {"Location": "/user/login"});
+				}
+				updatePage.build(response, request, pageData, list);
+			});
+		}
+	} else {
+		response.writeHead(302, {"Location": "/user/login"});
+	}
 }
 
 function List() {
