@@ -1,11 +1,11 @@
 var base = require("../base");
 
-function build(response, request, pageData, list) {
+function build(response, request, pageData, listId) {
 	var html = '';
 	html = html + base.openPage(pageData);
 	var html = html +
 		'<p class="message">' + pageData.message + '</p>'+
-		'<form action="/lists/' + list.id + '/add" method="post">'+
+		'<form action="/lists/' + listId + '/add" method="post">'+
 		'<fieldset>'+
 		'<label>'+
 		'Name: '+
@@ -13,7 +13,7 @@ function build(response, request, pageData, list) {
 		'</label><br />'+
 		'<label>'+
 		'Note: '+
-		'<textarea name="note"></textarea>'+
+		'<textarea name="note" rows="2" cols="20"></textarea>'+
 		'</label><br />'+
 		'<input type="submit" value="Add Task" />'+
 		'</fieldset>'+

@@ -12,6 +12,10 @@ var listPage = require("../views/list/index"),
 function create(response, request, pageData) {
 	var list = new List();
 	var form = new formidable.IncomingForm();
+	console.log("Request object:");
+	for(key in request.headers.connection) {
+		console.log(key + " = " + request[key]);
+	}
 	form.parse(request, function(error, fields, files) {
 		//add form validation
 		//name is required

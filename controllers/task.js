@@ -8,8 +8,25 @@ var taskPage = require("../views/task/index"),
 	http = require("http"),
 	session = require("../node_modules/sesh/lib/core").magicSession();
 
-function create(response, request, pageData, list) {
-
+function create(response, request, pageData, listId) {
+	var task = new Task();
+	var form = new formidable.IncomingForm();
+	form.parse(request, function(error, fields, files) {
+		// add form validation
+		// name is required
+		task.listId = listId;
+		task.name = fields["name"];
+		task.note = fields["note"];
+		taskDb.create(task, function(success) {
+			if (success) {
+				response.writeHead(302, {"Location": "/lists/" + listId});
+				response.end();
+			} else {
+				pageData.message = "Error creating task. Please try again";
+				createPgae.build(response, request, pageData, listId);
+			}
+		});
+	});
 }
 
 function update(response, request, pageData) {
@@ -29,13 +46,11 @@ function showPageCreate(response, request, listId) {
 	pageData.title = "Add Task - Node List";
 
 	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.user != "") {
-		listDb.selectById(listId, function(list) {
-			if (request.method.toLowerCase() == 'post') {
-				create(response, request, pageData, list);
-			} else {
-				createPage.build(response, request, pageData, list);
-			}
-		});
+		if (request.method.toLowerCase() == 'post') {
+			create(response, request, pageData, listId);
+		} else {
+			createPage.build(response, request, pageData, listId);
+		}
 	} else {
 		response.writeHead(302, {"Location": "/user/login"});
 		response.end();

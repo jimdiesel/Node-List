@@ -106,6 +106,7 @@ function selectByEmail(email, callback) {
 			user = results[0];
 		}
 		if (callback && typeof(callback) == "function") {
+			client.end();
 			callback(user);
 		}
 	});
