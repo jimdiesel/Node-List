@@ -1,5 +1,6 @@
 var server = require("./server");
 var router = require("./router");
+var controllerBase = require("./controllers/base");
 var user = require("./controllers/user");
 var list = require("./controllers/list");
 var task = require("./controllers/task");
@@ -45,6 +46,11 @@ router.get('/', function(request, response, path) {
 })
 .get('/lists/*', function(request, response, listId) {
 	list.showPageDetail(response, request, listId);
+})
+.post('/lists/*', function(request, response, listId) {
+	var pageData = new controllerBase.PageData();
+	pageData.title = "Incomplete Tasks - Node List";
+	list.updateTasks(response, request, pageData, listId);
 })
 .get('/lists/*/update', function(request, response, listId) {
 	list.showPageEdit(response, request, listId);

@@ -3,6 +3,7 @@ var listPage = require("../views/list/index"),
 	updatePage = require("../views/list/update"),
 	detailPage = require("../views/list/detail"),
 	base = require("./base"),
+	taskController = require("./task"),
 	listDb = require("../models/list"),
 	taskDb = require("../models/task"),
 	formidable = require("formidable"),
@@ -12,10 +13,6 @@ var listPage = require("../views/list/index"),
 function create(response, request, pageData) {
 	var list = new List();
 	var form = new formidable.IncomingForm();
-	console.log("Request object:");
-	for(key in request.headers.connection) {
-		console.log(key + " = " + request[key]);
-	}
 	form.parse(request, function(error, fields, files) {
 		//add form validation
 		//name is required
@@ -54,6 +51,26 @@ function update(response, request, pageData, listId) {
 	});
 }
 
+function updateTasks(response, request, pageData, listId) {
+	var form = new formidable.IncomingForm();
+	form.parse(request, function(error, fields, files) {
+		for(key in fields) {
+			// check if field name is numeric
+			// since all field names on the form are
+			// numbered checkboxes, this can be
+			// done later
+			
+			var complete = (fields[key].indexOf('on') != -1) ? 1 : 0;
+			taskDb.updateComplete(key, complete);
+		}
+		taskDb.selectByListId(listId, function(tasks) {
+			listDb.selectById(listId, function(list) {
+				detailPage.build(response, request, pageData, list, tasks);
+			});
+		});
+	});
+}
+
 function deleteList(response, request, pageData) {
 	// in list model, call delete function
 	// in task modle, call delete by list id function
@@ -78,11 +95,15 @@ function showPageDetail(response, request, listId) {
 	pageData.title = "Incomplete Tasks - Node List";
 
 	if (request.session.data.user != null && request.session.data.user != 'undefined' && request.session.data.user != "") {
-		taskDb.selectByListId(listId, function(tasks) {
-			listDb.selectById(listId, function(list) {
-				detailPage.build(response, request, pageData, list, tasks);
+		if (request.method.toLowerCase == 'post') {
+			updateTasks(response, request, pageData);
+		} else {
+			taskDb.selectByListId(listId, function(tasks) {
+				listDb.selectById(listId, function(list) {
+					detailPage.build(response, request, pageData, list, tasks);
+				});
 			});
-		});
+		}
 	} else {
 		response.writeHead(302, {"Location": "/user/login"});
 		response.end();
@@ -135,6 +156,7 @@ function List() {
 
 exports.create = create;
 exports.update = update;
+exports.updateTasks = updateTasks;
 exports.deleteList = deleteList;
 exports.showPageList = showPageList;
 exports.showPageDetail = showPageDetail;
