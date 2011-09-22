@@ -35,7 +35,7 @@ function update(response, request, pageData) {
 	var user = new User();
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
-		// add form validation later
+		// TODO: add form validation later
 		user.id = request.session.data.user;
 		user.email = fields["email"];
 		user.name = fields["name"];
@@ -57,7 +57,7 @@ function create(response, request, pageData) {
 	var user = new User();
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
-		// need to add form validation
+		// TODO: need to add form validation
 		user.email = fields["email"];
 		user.password = Hash.sha1(fields["password"]);
 		user.name = fields["name"];
@@ -72,7 +72,7 @@ function showPageLogin(response, request) {
 	var pageData = new base.PageData();
 	pageData.title = "Log In - Node List";
 
-	// not sure if this is the best way to do this, will revisit
+	// TODO: not sure if this is the best way to do this, will revisit
 	if (request.method.toLowerCase() == 'post') {
 		login(response, request, pageData);
 	} else {

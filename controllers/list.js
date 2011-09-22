@@ -14,7 +14,7 @@ function create(response, request, pageData) {
 	var list = new List();
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
-		//add form validation
+		// TODO: add form validation
 		//name is required
 		list.userId = request.session.data.user;
 		list.name = fields["name"];
@@ -35,7 +35,7 @@ function update(response, request, pageData, listId) {
 	var list = new List();
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
-		// add form validation
+		// TODO: add form validation
 		// name field is required
 		list.id = listId;
 		list.user_id = request.session.data.user;
@@ -55,7 +55,7 @@ function updateTasks(response, request, pageData, listId) {
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
 		for(key in fields) {
-			// check if field name is numeric
+			// TODO: check if field name is numeric
 			// since all field names on the form are
 			// numbered checkboxes, this can be
 			// done later
@@ -72,8 +72,8 @@ function updateTasks(response, request, pageData, listId) {
 }
 
 function deleteList(response, request, pageData) {
-	// in list model, call delete function
-	// in task modle, call delete by list id function
+	// TODO: in list model, call delete function
+	// TODO: in task model, call delete by list id function
 }
 
 function showPageList(response, request) {

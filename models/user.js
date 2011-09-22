@@ -40,7 +40,7 @@ function update(user, callback) {
 function deleteById(id) {
 	var client = base.init();
 	var values = [id];
-	// future enhancement:
+	// TODO: future enhancement:
 	// modify query to also delete lists and tasks 
 	// associated with the deleted user
 	client.query('DELETE FROM users WHERE id = ?', values, function(error, results) {
@@ -57,7 +57,7 @@ function deleteById(id) {
 function deleteByEmail(email) {
 	var client = base.init();
 	var values = [email];
-	// future enhancement:
+	// TODO: future enhancement:
 	// modify query to also delete lists and tasks
 	// associated with the deleted user
 	client.query('DELETE FROM users WHERE email = ?', values, function(error, results) {

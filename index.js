@@ -19,7 +19,7 @@ router.get('/', function(request, response, path) {
 	user.showPageEdit(response, request);
 })
 // use showPage function to handle POST request for now
-// refactor to go directly to the update function eventually
+// TODO: refactor to go directly to the update function eventually
 .post('/user/edit', function(request, response, path) {
 	user.showPageEdit(response, request);
 })

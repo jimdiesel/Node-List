@@ -2,7 +2,7 @@ var base = require("./base");
 
 function create(task, callback) {
 	var client = base.init();
-	// currently assigning order_by to 0
+	// TODO: currently assigning order_by to 0
 	// modify once dynamic orders are added
 	var values = [task.listId, task.name, task.note, "0"];
 	client.query('INSERT INTO tasks (list_id, name, note, complete, created, modified) VALUES (?, ?, ?, ?, NOW(), NOW())', values, function(error, results) {

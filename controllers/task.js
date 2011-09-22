@@ -12,7 +12,7 @@ function create(response, request, pageData, listId) {
 	var task = new Task();
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
-		// add form validation
+		// TODO: add form validation
 		// name is required
 		task.listId = listId;
 		task.name = fields["name"];
