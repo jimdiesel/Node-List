@@ -37,8 +37,17 @@ function deleteTask(response, request, pageData) {
 	
 }
 
-function showPageDetail(response, request, id) {
+function showPageDetail(response, request, listId, taskId) {
+	var pageData = new base.PageData();
 
+	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.user != "") {
+		taskDb.selectById(taskId, function(task) {
+			taskPage.build(response, request, pageData, task, listId);
+		});
+	} else {
+		response.writeHead(302, {"Location": "/user/login"});
+		response.end();
+	}
 }
 
 function showPageCreate(response, request, listId) {

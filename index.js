@@ -64,8 +64,8 @@ router.get('/', function(request, response, path) {
 .post('/lists/*/add', function(request, response, listId) {
 	task.showPageCreate(response, request, listId);
 })
-.get('/lists/*/*', function(request, response, list, task) {
-	// task detail page
+.get('/lists/*/*', function(request, response, listId, taskId) {
+	task.showPageDetail(response, request, listId, taskId);
 })
 .notFound(function(request, response) {
 	response.writeHead(404, {"Content-Type": "text/html"});
