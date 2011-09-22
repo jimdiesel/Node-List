@@ -74,7 +74,6 @@ function showPageLogin(response, request) {
 
 	// not sure if this is the best way to do this, will revisit
 	if (request.method.toLowerCase() == 'post') {
-		console.log("Post data detected. Attempting to log in.");
 		login(response, request, pageData);
 	} else {
 		loginPage.build(response, request, pageData);

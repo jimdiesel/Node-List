@@ -19,13 +19,11 @@ function create(user) {
 function update(user, callback) {
 	var client = base.init();
 	var values = [user.email, user.name, user.id];
-	console.log("user.password = " + user.password);
 	var query = 'UPDATE users SET email = ?, name = ?, modified = NOW() WHERE id = ?';
 	if (user.password != '') {
 		var values = [user.email, user.password, user.name, user.id];
 		var query = 'UPDATE users SET email = ?, password = ?, name = ?, modified = NOW() WHERE id = ?';
 	}
-	console.log("Query to be run: " + query);
 	client.query(query, values, function(error, results) {
 		if(error) {
 			console.log("Error updating user: " + error.message);

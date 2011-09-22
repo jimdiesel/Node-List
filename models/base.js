@@ -5,7 +5,6 @@ var sys = require("sys");
 var Client = require("mysql").Client;
 
 function init() {
-	console.log("Initializing database connection.");
 	var client = new Client();
 
 	client.user = 'root';
@@ -16,7 +15,6 @@ function init() {
 			console.log("Connection Error: " + error.message);
 			return;
 		}
-		console.log("Connected to MySQL");
 	});
 	client.query("USE node_list", function(error, results) {
 		if(error) {
@@ -25,7 +23,6 @@ function init() {
 			return;
 		}
 	});
-	console.log("Database connection initialized successfully.");
 	return client;
 }
 

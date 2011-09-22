@@ -1,7 +1,6 @@
 var base = require("../base");
 
 function build(response, request, pageData, list, tasks) {
-	console.log("tasks = " + tasks);
 	var html = "";
 	html = html + base.openPage(pageData);
 	html = html +
