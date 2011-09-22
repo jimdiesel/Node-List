@@ -4,13 +4,14 @@ function build(response, request, pageData) {
 	var html = "";
 	html = html + base.openPage(pageData);
 	html = html +
+		'<a href="/lists">&laquo; Back</a>'+
 		'<h1>Create List</h1>'+
 		'<p class="message">' + pageData.message + '</p>'+
 		'<form action="/lists/add" method="post">'+
 		'<label>'+
 		'List Name: '+
 		'<input type="text" name="name" />'+
-		'</label>'+
+		'</label><br />'+
 		'<input type="submit" value="Create" />'+
 		'</form>';
 	html = html + base.closePage(pageData);

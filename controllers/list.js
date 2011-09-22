@@ -18,15 +18,14 @@ function create(response, request, pageData) {
 		//name is required
 		list.userId = request.session.data.user;
 		list.name = fields["name"];
-		listDb.create(list, list.userId, function(success) {
-			if (success) {
-				// TODO: redirect user to new list page
-				// implement once ids can be included in urls
-				pageData.message = "List created successfully";
+		listDb.create(list, list.userId, function(list) {
+			if (list) {
+				response.writeHead(302, {"Location": "/lists/" + list.id});
+				response.end();
 			} else {
 				pageData.message = "Error creating list. Please try again";
+				createPage.build(response, request, pageData);
 			}
-			createPage.build(response, request, pageData);
 		});
 	});
 }
