@@ -4,6 +4,7 @@ function build(response, request, pageData, list, tasks) {
 	var html = "";
 	html = html + base.openPage(pageData);
 	html = html +
+		'<a href="/lists">&laquo; Back</a>'+
 		'<h1>Tasks for ' + list.name + '</h1>'+
 		'<p><a href="/lists/' + list.id + '/add">Add a Task</a></p>'+
 		'<form action="/lists/' + list.id + '" method="post">'+
