@@ -88,9 +88,10 @@ function showPageUser(response, request) {
 			if (user == null || user == 'undefined') {
 				response.writeHead(302, {"Location": "/user/login"});
 				response.end();
+			} else {
+				pageData.title = "Home - Node List";
+				userPage.build(response, request, pageData, user);
 			}
-			pageData.title = "Home - Node List";
-			userPage.build(response, request, pageData, user);
 		});
 	} else {
 		response.writeHead(302, {"Location": "/user/login"});
@@ -110,8 +111,9 @@ function showPageEdit(response, request) {
 				if (user == null || user == 'undefined') {
 					response.writeHead(302, {"Location": "/user/login"});
 					response.end();
+				} else {
+					editPage.build(response, request, pageData, user);
 				}
-				editPage.build(response, request, pageData, user);
 			});
 		}
 	} else {
