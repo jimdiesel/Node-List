@@ -4,6 +4,7 @@ function build(response, request, pageData, lists) {
 	var html = "";
 	html = html + base.openPage(pageData);
 	html = html +
+		'<a href="/">&laquo; Back</a>'+
 		'<h1>Your Lists</h1>'+
 		'<ul>';
 	for (var i = 0;i < lists.length;i++) {
