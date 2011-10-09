@@ -1,6 +1,6 @@
 var base = require("./base");
 
-function create(user) {
+function create(user, callback) {
 	var client = base.init();
 	var values = [user.email, user.password, user.name];
 	client.query('INSERT INTO users (email, password, name, created, modified, last_login) VALUES (?, ?, ?, NOW(), NOW(), NOW())', values, function(error, results) {
@@ -9,11 +9,11 @@ function create(user) {
 			client.end();
 			return;
 		}
-		console.log("Inserted: " + results.affectedRows + " row");
-		console.log("Id inserted: " + results.insertId);
-		user.id = results.insertId;
+		if (callback && typeof(callback) == 'function') {
+			user.id = results.insertId;
+			callback(user);
+		}
 	});
-	return user;
 }
 
 function update(user, callback) {

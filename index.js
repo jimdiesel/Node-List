@@ -33,7 +33,7 @@ router.get('/', function(request, response, path) {
 	user.showPageCreate(response, request);
 })
 .post('/user/create', function(request, response, path) {
-	user.showPageCreate(response, request);
+	user.create(response, request);
 })
 .get('/user/delete', function(request, response, path) {
 	user.deleteUser(response, request);

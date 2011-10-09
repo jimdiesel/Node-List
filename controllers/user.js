@@ -57,18 +57,22 @@ function update(response, request, pageData) {
 	});
 }
 
-function create(response, request, pageData) {
+function create(response, request) {
+	var pageData = new base.PageData();
 	var user = new User();
 	var form = new formidable.IncomingForm();
+
+	pageData.title = "Create Account - Node List";
 	form.parse(request, function(error, fields, files) {
 		// TODO: need to add form validation
 		user.email = fields["email"];
 		user.password = Hash.sha1(fields["password"]);
 		user.name = fields["name"];
-		user = userDb.create(user);
-		request.session.data.user = user.id;
-		response.writeHead(302, {"Location": "/user"});
-		response.end();
+		user = userDb.create(user, function(user) {
+			request.session.data.user = user.id;
+			response.writeHead(302, {"Location": "/user"});
+			response.end();
+		});
 	});
 }
 
@@ -118,13 +122,8 @@ function showPageCreate(response, request) {
 	var loggedIn = base.validateUser(request, response, false);
 	if (loggedIn == false) {
 		var pageData = new base.PageData();
-		pageData.title = "Create Account - Node List";
-	
-		if (request.method.toLowerCase() == 'post') {
-			create(response, request, pageData);
-		} else {
-			createPage.build(response, request, pageData);
-		}
+		pageData.title = "Create Account - Node List";	
+		createPage.build(response, request, pageData);
 	} else {
 		response.writeHead(302, {"Location": "/user"});
 		response.end();
