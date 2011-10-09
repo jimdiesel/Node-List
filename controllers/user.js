@@ -88,6 +88,9 @@ function showPageLogin(response, request) {
 		} else {
 			loginPage.build(response, request, pageData);
 		}
+	} else {
+		response.writeHead(302, {"Location": "/user"});
+		response.end();
 	}
 }
 
@@ -108,10 +111,8 @@ function showPageEdit(response, request) {
 }
 
 function showPageCreate(response, request) {
-	if (base.isLoggedIn(request)) {
-		response.writeHead(302, {"Location": "/user"});
-		response.end();
-	} else {
+	var loggedIn = base.validateUser(request, response, false);
+	if (loggedIn == false) {
 		var pageData = new base.PageData();
 		pageData.title = "Create Account - Node List";
 	
@@ -120,6 +121,9 @@ function showPageCreate(response, request) {
 		} else {
 			createPage.build(response, request, pageData);
 		}
+	} else {
+		response.writeHead(302, {"Location": "/user"});
+		response.end();
 	}
 }
 
