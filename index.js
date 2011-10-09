@@ -35,6 +35,12 @@ router.get('/', function(request, response, path) {
 .post('/user/create', function(request, response, path) {
 	user.showPageCreate(response, request);
 })
+.get('/user/delete', function(request, response, path) {
+	user.delete(response, request);
+})
+.get('/user/delete/confirm', function(request, response, path) {
+	user.showPageDelete(response, request);
+})
 .get('/lists', function(request, response, path) {
 	list.showPageList(response, request);
 })

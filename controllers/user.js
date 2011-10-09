@@ -4,6 +4,7 @@ var querystring = require("querystring"),
 	createPage = require("../views/user/create"),
 	userPage = require("../views/user/index"),
 	editPage = require("../views/user/edit"),
+	deletePage = require("../views/user/delete"),
 	userDb = require("../models/user"),
 	base = require("./base"),
 	http = require("http"),
@@ -68,6 +69,11 @@ function create(response, request, pageData) {
 	});
 }
 
+function delete(response, request) {
+	// TODO: call method to delete user from database
+	// check if user is logged in first
+}
+
 function showPageLogin(response, request) {
 	if (base.isLoggedIn(request)) {
 		response.writeHead(302, {"Location": "/user"});
@@ -114,6 +120,14 @@ function showPageCreate(response, request) {
 			createPage.build(response, request, pageData);
 		}
 	}
+}
+
+function showPageDelete(response, request) {
+	base.validateUser(request, respones, function(user) {
+		var pageData = new base.PageData();
+		pageData.title = "Delete Account - Node List";
+		deletePage.build(response, request, pageData);
+	});
 }
 
 function User() {
