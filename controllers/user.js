@@ -81,22 +81,11 @@ function showPageLogin(response, request) {
 }
 
 function showPageUser(response, request) {
-	var pageData = new base.PageData();
-
-	if (request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined') {
-		userDb.selectById(request.session.data.user, function(user) {
-			if (user == null || user == 'undefined') {
-				response.writeHead(302, {"Location": "/user/login"});
-				response.end();
-			} else {
-				pageData.title = "Home - Node List";
-				userPage.build(response, request, pageData, user);
-			}
-		});
-	} else {
-		response.writeHead(302, {"Location": "/user/login"});
-		response.end();
-	}
+	base.validateUser(request, response, function(user) {
+		var pageData = new base.PageData();
+		pageData.title = "Home - Node List";
+		userPage.build(response, request, pageData, user);
+	});
 }
 
 function showPageEdit(response, request) {

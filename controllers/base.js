@@ -1,3 +1,5 @@
+var userDb = require("../models/user");
+
 function PageData() {
 	this.title = '';
 	this.metaDescription = '';
@@ -5,14 +7,14 @@ function PageData() {
 	this.message = '';
 }
 
-function validateUser(request, response, id, callback) {
+function validateUser(request, response, callback) {
 	if (request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined') {
 		userDb.selectById(request.session.data.user, function(user) {
 			if (user == null || user == 'undefined') {
 				redirectToLogin(response);
 			} else {
 				if (callback && typeof(callback) == 'function') {
-					callback();
+					callback(user);
 				}
 			}
 		});
@@ -27,3 +29,5 @@ function redirectToLogin(response) {
 }
 
 exports.PageData = PageData;
+exports.validateUser = validateUser;
+exports.redirectToLogin = redirectToLogin;
