@@ -37,19 +37,18 @@ function update(user, callback) {
 	}
 }
 
-function deleteById(id) {
+function deleteById(id, callback) {
 	var client = base.init();
 	var values = [id];
-	// TODO: future enhancement:
-	// modify query to also delete lists and tasks 
-	// associated with the deleted user
 	client.query('DELETE FROM users WHERE id = ?', values, function(error, results) {
 		if(error) {
 			console.log("Error deleting user: " + error.message);
 			client.end();
 			return false;
 		}
-		console.log("Deleted: " + results.affectedRows + " row(s)");
+		if (callback && typeof(callback) == 'function') {
+			callback();
+		}
 	});
 	return true;
 }
@@ -57,9 +56,6 @@ function deleteById(id) {
 function deleteByEmail(email) {
 	var client = base.init();
 	var values = [email];
-	// TODO: future enhancement:
-	// modify query to also delete lists and tasks
-	// associated with the deleted user
 	client.query('DELETE FROM users WHERE email = ?', values, function(error, results) {
 		if(error) {
 			console.log("Error deleting user: " + error.message);

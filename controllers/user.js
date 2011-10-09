@@ -73,8 +73,12 @@ function create(response, request, pageData) {
 }
 
 function deleteUser(response, request) {
-	// TODO: call method to delete user from database
-	// check if user is logged in first
+	base.validateUser(request, response, true, function(user) {
+		userDb.deleteById(user.id, function() {
+			request.session.data.user = "Guest";
+			base.redirectToLogin(response);
+		});
+	});
 }
 
 function showPageLogin(response, request) {
