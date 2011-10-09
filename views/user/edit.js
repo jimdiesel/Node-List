@@ -4,7 +4,9 @@ function build(response, request, pageData, user) {
 	var html = '';
 	html = html + base.openPage(pageData);
 	html = html +
+		'<nav>'+
 		'<a href="/user">&laquo; Back</a>'+
+		'</nav>'+
 		'<p class="message">' + pageData.message + '</p>'+
 		'<p><a href="/user/delete/confirm">Delete my Account</a></p>'+
 		'<form action="/user/edit" method="post">'+

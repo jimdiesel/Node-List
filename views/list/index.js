@@ -4,7 +4,7 @@ function build(response, request, pageData, lists) {
 	var html = "";
 	html = html + base.openPage(pageData);
 	html = html +
-		'<a href="/">&laquo; Back</a>'+
+		'<nav><a href="/">&laquo; Back</a></nav>'+
 		'<h1>Your Lists</h1>';
 	if (lists != 'undefined' && lists != null) {
 	html = html + '<ul>';

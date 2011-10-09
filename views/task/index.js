@@ -8,7 +8,7 @@ function build(response, request, pageData, task, listId) {
 		html = html + '<h1>Task not found</h1>';
 	} else {
 		html = html +
-			'<a href="/lists/' + listId + '">&laquo; Back</a>'+
+			'<nav><a href="/lists/' + listId + '">&laquo; Back</a></nav>'+
 			'<h1>' + task.name + '</h1>'+
 			'<dl>'+
 			'<dt>Note:</dt>'+

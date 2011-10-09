@@ -4,7 +4,7 @@ function build(response, request, pageData, list, tasks) {
 	var html = "";
 	html = html + base.openPage(pageData);
 	html = html +
-		'<a href="/lists">&laquo; Back</a>'+
+		'<nav><a href="/lists">&laquo; Back</a></nav>'+
 		'<h1>Tasks for ' + list.name + '</h1>';
 	if (tasks != 'undefined' && tasks != null) {
 		html = html +

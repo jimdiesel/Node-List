@@ -4,6 +4,7 @@ function build(response, request, pageData, listId) {
 	var html = '';
 	html = html + base.openPage(pageData);
 	var html = html +
+		'<nav><a href="/lists/' + listId + '">&laquo; Back</a></nav>'+
 		'<p class="message">' + pageData.message + '</p>'+
 		'<form action="/lists/' + listId + '/add" method="post">'+
 		'<fieldset>'+
