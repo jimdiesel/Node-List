@@ -13,8 +13,11 @@ require("joose");
 require("joosex-namespace-depended");
 require("hash");
 
-function login(response, request, pageData) {
+function login(response, request) {
+	var pageData = new base.PageData();
 	var form = new formidable.IncomingForm();
+
+	pageData.title = "Log In - Node List";
 	form.parse(request, function(error, fields, files) {
 		userDb.selectByEmail(fields["email"], function (user) {
 			if (user == null || user == 'undefined') {
@@ -69,16 +72,14 @@ function create(response, request, pageData) {
 	});
 }
 
-function delete(response, request) {
+function deleteUser(response, request) {
 	// TODO: call method to delete user from database
 	// check if user is logged in first
 }
 
 function showPageLogin(response, request) {
-	if (base.isLoggedIn(request)) {
-		response.writeHead(302, {"Location": "/user"});
-		response.end();
-	} else {
+	var loggedIn = base.validateUser(request, response, false);
+	if (loggedIn == false) {
 		var pageData = new base.PageData();
 		pageData.title = "Log In - Node List";
 	
@@ -91,7 +92,7 @@ function showPageLogin(response, request) {
 }
 
 function showPageUser(response, request) {
-	base.validateUser(request, response, function(user) {
+	base.validateUser(request, response, true, function(user) {
 		var pageData = new base.PageData();
 		pageData.title = "Home - Node List";
 		userPage.build(response, request, pageData, user);
@@ -99,7 +100,7 @@ function showPageUser(response, request) {
 }
 
 function showPageEdit(response, request) {
-	base.validateUser(request, response, function(user) {
+	base.validateUser(request, response, true, function(user) {
 		var pageData = new base.PageData();
 		pageData.title = "Edit Profile - Node List";
 		editPage.build(response, request, pageData, user);
@@ -123,7 +124,7 @@ function showPageCreate(response, request) {
 }
 
 function showPageDelete(response, request) {
-	base.validateUser(request, respones, function(user) {
+	base.validateUser(request, response, true, function(user) {
 		var pageData = new base.PageData();
 		pageData.title = "Delete Account - Node List";
 		deletePage.build(response, request, pageData);
@@ -143,6 +144,7 @@ function User() {
 exports.login = login;
 exports.update = update;
 exports.create = create;
+exports.deleteUser = deleteUser;
 exports.showPageLogin = showPageLogin;
 exports.showPageUser = showPageUser;
 exports.showPageEdit = showPageEdit;

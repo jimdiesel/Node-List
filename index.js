@@ -27,7 +27,7 @@ router.get('/', function(request, response, path) {
 	user.showPageLogin(response, request);
 })
 .post('/user/login', function(request, response, path) {
-	user.showPageLogin(response, request);
+	user.login(response, request);
 })
 .get('/user/create', function(request, response, path) {
 	user.showPageCreate(response, request);
@@ -36,7 +36,7 @@ router.get('/', function(request, response, path) {
 	user.showPageCreate(response, request);
 })
 .get('/user/delete', function(request, response, path) {
-	user.delete(response, request);
+	user.deleteUser(response, request);
 })
 .get('/user/delete/confirm', function(request, response, path) {
 	user.showPageDelete(response, request);

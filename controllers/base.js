@@ -1,4 +1,10 @@
-var userDb = require("../models/user");
+var userDb = require("../models/user"),
+	querystring = require("querystring"),
+	http = require("http"),
+	session = require("../node_modules/sesh/lib/core").magicSession();
+require("joose");
+require("joosex-namespace-depended");
+require("hash");
 
 function PageData() {
 	this.title = '';
@@ -7,24 +13,34 @@ function PageData() {
 	this.message = '';
 }
 
-function validateUser(request, response, callback) {
-	if (isLoggedIn(request)) {
+function validateUser(request, response, redirect, callback) {
+	if (isLoggedIn(request) == true) {
 		userDb.selectById(request.session.data.user, function(user) {
 			if (user == null || user == 'undefined') {
-				redirectToLogin(response);
+				if (redirect == true) {
+					redirectToLogin(response);
+				} else {
+					return false;
+				}
 			} else {
 				if (callback && typeof(callback) == 'function') {
 					callback(user);
+				} else {
+					return true;
 				}
 			}
 		});
 	} else {
-		redirectToLogin(response);
+		if (redirect == true) {
+			redirectToLogin(response);
+		} else {
+			return false;
+		}
 	}
 }
 
 function isLoggedIn(request) {
-	if (request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined') {
+	if (request.session != undefined && request.session != null && request.session.data.user != undefined && request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined' && request.session.data.user != "Guest") {
 		return true;
 	} else {
 		return false;
