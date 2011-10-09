@@ -8,9 +8,12 @@ var taskPage = require("../views/task/index"),
 	http = require("http"),
 	session = require("../node_modules/sesh/lib/core").magicSession();
 
-function create(response, request, pageData, listId) {
+function create(response, request, listId) {
+	var pageData = new base.PageData();
 	var task = new Task();
 	var form = new formidable.IncomingForm();
+
+	pageData.title = "Add Task - Node List";
 	form.parse(request, function(error, fields, files) {
 		// TODO: add form validation
 		// name is required
@@ -38,32 +41,20 @@ function deleteTask(response, request, pageData) {
 }
 
 function showPageDetail(response, request, listId, taskId) {
-	var pageData = new base.PageData();
-
-	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.user != "") {
+	base.validateUser(request, response, true, function(user) {
+		var pageData = new base.PageData();
 		taskDb.selectById(taskId, function(task) {
 			taskPage.build(response, request, pageData, task, listId);
 		});
-	} else {
-		response.writeHead(302, {"Location": "/user/login"});
-		response.end();
-	}
+	});
 }
 
 function showPageCreate(response, request, listId) {
-	var pageData = new base.PageData();
-	pageData.title = "Add Task - Node List";
-
-	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.user != "") {
-		if (request.method.toLowerCase() == 'post') {
-			create(response, request, pageData, listId);
-		} else {
-			createPage.build(response, request, pageData, listId);
-		}
-	} else {
-		response.writeHead(302, {"Location": "/user/login"});
-		response.end();
-	}
+	base.validateUser(request, response, true, function(user) {
+		var pageData = new base.PageData();
+		pageData.title = "Add Task - Node List";
+		createPage.build(response, request, pageData, listId);
+	});
 }
 
 function showPageUpdate(response, request, pageData) {

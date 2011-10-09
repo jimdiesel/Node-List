@@ -71,7 +71,7 @@ router.get('/', function(request, response, path) {
 	task.showPageCreate(response, request, listId);
 })
 .post('/lists/*/add', function(request, response, listId) {
-	task.showPageCreate(response, request, listId);
+	task.create(response, request, listId);
 })
 .get('/lists/*/*', function(request, response, listId, taskId) {
 	task.showPageDetail(response, request, listId, taskId);
