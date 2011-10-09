@@ -8,7 +8,7 @@ function PageData() {
 }
 
 function validateUser(request, response, callback) {
-	if (request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined') {
+	if (isLoggedIn(request)) {
 		userDb.selectById(request.session.data.user, function(user) {
 			if (user == null || user == 'undefined') {
 				redirectToLogin(response);
@@ -23,6 +23,14 @@ function validateUser(request, response, callback) {
 	}
 }
 
+function isLoggedIn(request) {
+	if (request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined') {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function redirectToLogin(response) {
 	response.writeHead(302, {"Location": "/user/login"});
 	response.end();
@@ -30,4 +38,5 @@ function redirectToLogin(response) {
 
 exports.PageData = PageData;
 exports.validateUser = validateUser;
+exports.isLoggedIn = isLoggedIn;
 exports.redirectToLogin = redirectToLogin;

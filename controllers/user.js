@@ -69,14 +69,18 @@ function create(response, request, pageData) {
 }
 
 function showPageLogin(response, request) {
-	var pageData = new base.PageData();
-	pageData.title = "Log In - Node List";
-
-	// TODO: not sure if this is the best way to do this, will revisit
-	if (request.method.toLowerCase() == 'post') {
-		login(response, request, pageData);
+	if (base.isLoggedIn(request)) {
+		response.writeHead(302, {"Location": "/user"});
+		response.end();
 	} else {
-		loginPage.build(response, request, pageData);
+		var pageData = new base.PageData();
+		pageData.title = "Log In - Node List";
+	
+		if (request.method.toLowerCase() == 'post') {
+			login(response, request, pageData);
+		} else {
+			loginPage.build(response, request, pageData);
+		}
 	}
 }
 
@@ -89,36 +93,26 @@ function showPageUser(response, request) {
 }
 
 function showPageEdit(response, request) {
-	var pageData = new base.PageData();
-	pageData.title = "Edit Profile - Node List";
-
-	if (request.session.data.user != null && request.session.data.user != 'undefined' && request.session.data.user != '') {
-		if (request.method.toLowerCase() == 'post') {
-			update(response, request, pageData);
-		} else {
-			userDb.selectById(request.session.data.user, function(user) {
-				if (user == null || user == 'undefined') {
-					response.writeHead(302, {"Location": "/user/login"});
-					response.end();
-				} else {
-					editPage.build(response, request, pageData, user);
-				}
-			});
-		}
-	} else {
-		response.writeHead(302, {"Location": "/user/login"});
-		response.end();
-	}
+	base.validateUser(request, response, function(user) {
+		var pageData = new base.PageData();
+		pageData.title = "Edit Profile - Node List";
+		editPage.build(response, request, pageData, user);
+	});
 }
 
 function showPageCreate(response, request) {
-	var pageData = new base.PageData();
-	pageData.title = "Create Account - Node List";
-
-	if (request.method.toLowerCase() == 'post') {
-		create(response, request, pageData);
+	if (base.isLoggedIn(request)) {
+		response.writeHead(302, {"Location": "/user"});
+		response.end();
 	} else {
-		createPage.build(response, request, pageData);
+		var pageData = new base.PageData();
+		pageData.title = "Create Account - Node List";
+	
+		if (request.method.toLowerCase() == 'post') {
+			create(response, request, pageData);
+		} else {
+			createPage.build(response, request, pageData);
+		}
 	}
 }
 

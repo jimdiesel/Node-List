@@ -16,8 +16,9 @@ function build(response, request, pageData) {
 		'<input type="password" name="password" />'+
 		'</label><br />'+
 		'<input type="submit" value="Login" />'+
-		'</fieldset>'
-		'</form>';
+		'</fieldset>'+
+		'</form>'+
+		'<p>Not a user? <a href="/user/create">Create an Account</a>.</p>';
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});
 	response.write(html);

@@ -8,6 +8,7 @@ function build(response, request, pageData, user) {
 		'<ul>'+
 		'<li><a href="/lists">View my lists</a></li>'+
 		'<li><a href="/user/edit">Edit my profile</a></li>'+
+		'<li><a href="/user/logout">Log out</a></li>'+
 		'</ul>';
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});

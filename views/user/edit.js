@@ -6,6 +6,7 @@ function build(response, request, pageData, user) {
 	html = html +
 		'<a href="/user">&laquo; Back</a>'+
 		'<p class="message">' + pageData.message + '</p>'+
+		'<p><a href="/user/delete">Delete my Account</a></p>'+
 		'<form action="/user/edit" method="post">'+
 		'<fieldset>'+
 		'<label>'+
