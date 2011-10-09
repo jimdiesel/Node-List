@@ -41,6 +41,9 @@ router.get('/', function(request, response, path) {
 .get('/user/delete/confirm', function(request, response, path) {
 	user.showPageDelete(response, request);
 })
+.get('/user/logout', function(request, response, path) {
+	user.logout(response, request);
+})
 .get('/lists', function(request, response, path) {
 	list.showPageList(response, request);
 })

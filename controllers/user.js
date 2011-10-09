@@ -85,6 +85,11 @@ function deleteUser(response, request) {
 	});
 }
 
+function logout(response, request) {
+	request.session.data.user = "Guest";
+	base.redirectToLogin(response);
+}
+
 function showPageLogin(response, request) {
 	var loggedIn = base.validateUser(request, response, false);
 	if (loggedIn == false) {
@@ -152,6 +157,7 @@ exports.login = login;
 exports.update = update;
 exports.create = create;
 exports.deleteUser = deleteUser;
+exports.logout = logout;
 exports.showPageLogin = showPageLogin;
 exports.showPageUser = showPageUser;
 exports.showPageEdit = showPageEdit;
