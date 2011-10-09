@@ -10,9 +10,12 @@ var listPage = require("../views/list/index"),
 	http = require("http"),
 	session = require("../node_modules/sesh/lib/core").magicSession();
 
-function create(response, request, pageData) {
+function create(response, request) {
+	var pageData = new base.PageData();
 	var list = new List();
 	var form = new formidable.IncomingForm();
+
+	pageData.title = "Create List - Node List";
 	form.parse(request, function(error, fields, files) {
 		// TODO: add form validation
 		//name is required
@@ -72,29 +75,22 @@ function updateTasks(response, request, pageData, listId) {
 }
 
 function deleteList(response, request, pageData) {
-	// TODO: in list model, call delete function
-	// TODO: in task model, call delete by list id function
 }
 
 function showPageList(response, request) {
-	var pageData = new base.PageData();
-	pageData.title = "Your Lists - Node List";
-
-	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.data.user != "") {
+	base.validateUser(request, response, true, function(user) {
+		var pageData = new base.PageData();
+		pageData.title = "Your Lists - Node List";
 		listDb.selectByUserId(request.session.data.user, function(lists) {
 			listPage.build(response, request, pageData, lists);
 		});
-	} else {
-		response.writeHead(302, {"Location": "/user/login"});
-		response.end();
-	}
+	});
 }
 
 function showPageDetail(response, request, listId) {
-	var pageData = new base.PageData();
-	pageData.title = "Incomplete Tasks - Node List";
-
-	if (request.session.data.user != null && request.session.data.user != 'undefined' && request.session.data.user != "") {
+	base.validateUser(request, response, true, function(user) {
+		var pageData = new base.PageData();
+		pageData.title = "Incomplete Tasks - Node List";
 		if (request.method.toLowerCase == 'post') {
 			updateTasks(response, request, pageData);
 		} else {
@@ -104,32 +100,21 @@ function showPageDetail(response, request, listId) {
 				});
 			});
 		}
-	} else {
-		response.writeHead(302, {"Location": "/user/login"});
-		response.end();
-	}
+	});
 }
 
 function showPageCreate(response, request) {
-	var pageData = new base.PageData();
-	pageData.title = "Create List - Node List";
-
-	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.data.user != "") {
-		if (request.method.toLowerCase() == 'post') {
-			create(response, request, pageData);
-		} else {
-			createPage.build(response, request, pageData);
-		}
-	} else {
-		response.writeHead(302, {"Location": "/user/login"});
-	}
+	base.validateUser(request, response, true, function(user) {
+		var pageData = new base.PageData();
+		pageData.title = "Create List - Node List";
+		createPage.build(response, request, pageData);
+	});
 }
 
 function showPageEdit(response, request, listId) {
-	var pageData = new base.PageData();
-	pageData.title = "Edit List - Node List";
-
-	if (request.session.data.user != null && request.session.data.user != "undefined" && request.session.data.user != "") {
+	base.validateUser(request, response, true, function(user) {
+		var pageData = new base.PageData();
+		pageData.title = "Edit List - Node List";
 		if (request.method.toLowerCase() == "post") {
 			update(response, request, pageData, listId);
 		} else {
@@ -140,9 +125,7 @@ function showPageEdit(response, request, listId) {
 				updatePage.build(response, request, pageData, list);
 			});
 		}
-	} else {
-		response.writeHead(302, {"Location": "/user/login"});
-	}
+	});
 }
 
 function List() {

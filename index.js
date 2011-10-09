@@ -51,7 +51,7 @@ router.get('/', function(request, response, path) {
 	list.showPageCreate(response, request);
 })
 .post('/lists/add', function(request, response, path) {
-	list.showPageCreate(response, request);
+	list.create(response, request);
 })
 .get('/lists/*', function(request, response, listId) {
 	list.showPageDetail(response, request, listId);
