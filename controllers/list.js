@@ -41,11 +41,12 @@ function update(response, request, pageData, listId) {
 		list.name = fields["name"];
 		listDb.update(list, function(success) {
 			if (success) {
-				pageData.message = "List updated successfully";
+				response.writeHead(302, {"Location": '/lists/' + listId});
+				response.end();
 			} else {
 				pageData.message = "Error updating list. Please try again";
+				updatePage.build(response, request, pageData, list);
 			}
-			updatePage.build(response, request, pageData, list);
 		});
 	});
 }

@@ -10,6 +10,7 @@ function build(response, request, pageData, list, tasks) {
 		html = html +
 			'<p><a href="/lists/' + list.id + '/add">Add a Task</a></p>'+
 			'<form action="/lists/' + list.id + '" method="post">'+
+			'<section>'+
 			'<h2>Incomplete Tasks</h2>'+
 			'<ul>';
 		for (var i = 0;i < tasks.length;i++) {
@@ -25,6 +26,8 @@ function build(response, request, pageData, list, tasks) {
 		}
 		html = html +
 			'</ul>'+
+			'</section>'+
+			'<section>'+
 			'<h2>Completed Tasks</h2>'+
 			'<ul>';
 		for (var i = 0;i < tasks.length;i++) {
@@ -41,12 +44,15 @@ function build(response, request, pageData, list, tasks) {
 		}
 		html = html +
 			'</ul>'+
+			'</section>'+
 			'<input type="submit" value="Update List" />'+
 			'</form>';
 	} else {
 		html = html +
 		'<p>There are no tasks for this list. Why not <a href="/lists/' + list.id + '/add">add a task</a>?</p>';
 	}
+	html = html +
+		'<a href="/lists/' + list.id + '/update">Rename this list</a>';
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});
 	response.write(html);
