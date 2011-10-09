@@ -22,14 +22,25 @@ function update(task, callback) {
 
 }
 
-function updateComplete(taskId, complete) {
+function updateComplete(tasks, callback) {
 	var client = base.init();
-	var values = [complete, taskId];
-	client.query('UPDATE tasks SET complete = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
+	var query = 'INSERT INTO tasks (id, complete, modified) VALUES ';
+	for(var i = 0; i < tasks.length; i++) {
+		query = query + '(' + tasks[i].id + ', ' + tasks[i].complete + ', NOW())';
+		if (i < tasks.length - 1) {
+			query = query + ',';
+		}
+	}
+	query = query + ' ON DUPLICATE KEY UPDATE complete=VALUES(complete), modified=VALUES(modified)';
+	var values = [];
+	client.query(query, values, function(error, results) {
 		if (error) {
 			console.log("Error updating task: " + error.message);
 			client.end();
 			return;
+		}
+		if (callback && typeof(callback) == 'function') {
+			callback();
 		}
 		client.end();
 	});

@@ -57,6 +57,7 @@ function update(response, request, pageData, listId) {
 function updateTasks(response, request, pageData, listId) {
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
+		var tasks = [];
 		for(key in fields) {
 			// TODO: check if field name is numeric
 			// since all field names on the form are
@@ -64,11 +65,14 @@ function updateTasks(response, request, pageData, listId) {
 			// done later
 			
 			var complete = (fields[key].indexOf('on') != -1) ? 1 : 0;
-			taskDb.updateComplete(key, complete);
+			//taskDb.updateComplete(key, complete);
+			tasks.push({id: key, complete: complete});
 		}
-		taskDb.selectByListId(listId, function(tasks) {
-			listDb.selectById(listId, function(list) {
-				detailPage.build(response, request, pageData, list, tasks);
+		taskDb.updateComplete(tasks, function() {
+			taskDb.selectByListId(listId, function(tasks) {
+				listDb.selectById(listId, function(list) {
+					detailPage.build(response, request, pageData, list, tasks);
+				});
 			});
 		});
 	});
