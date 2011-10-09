@@ -5,8 +5,9 @@ function build(response, request, pageData, lists) {
 	html = html + base.openPage(pageData);
 	html = html +
 		'<a href="/">&laquo; Back</a>'+
-		'<h1>Your Lists</h1>'+
-		'<ul>';
+		'<h1>Your Lists</h1>';
+	if (lists != 'undefined' && lists != null) {
+	html = html + '<ul>';
 	for (var i = 0;i < lists.length;i++) {
 		html = html +
 			'<li><a href="/lists/' + lists[i].id + '">' + lists[i].name + '</a></li>';
@@ -14,6 +15,10 @@ function build(response, request, pageData, lists) {
 	html = html +
 		'</ul>'+
 		'<p><a href="/lists/add">Create a new list</a></p>';
+	} else {
+		html = html+
+			'<p>You don\' have anything to do! Get started and <a href="/lists/add">create a list</a>.</p>';
+	}
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});
 	response.write(html);

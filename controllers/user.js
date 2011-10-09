@@ -153,4 +153,5 @@ exports.showPageLogin = showPageLogin;
 exports.showPageUser = showPageUser;
 exports.showPageEdit = showPageEdit;
 exports.showPageCreate = showPageCreate;
+exports.showPageDelete = showPageDelete;
 exports.User = User;
