@@ -16,9 +16,9 @@ function build(response, request, pageData, task, listId) {
 			'<dt>Complete:</dt>' +
 			'<dd>' + complete  + '</dd>'+
 			'<dt>Created:</dt>'+
-			'<dd>' + task.created + '</dd>'+
+			'<dd><time>' + task.created + '</time></dd>'+
 			'<dt>Last Modified:</dt>'+
-			'<dd>' + task.modified + '</dd>'+
+			'<dd><time>' + task.modified + '</time></dd>'+
 			'</dl>'+
 			'<a href="/lists/' + listId + '/' + task.id + '/edit">Edit this Task</a>';
 	}
