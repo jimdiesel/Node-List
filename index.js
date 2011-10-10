@@ -1,6 +1,5 @@
 var server = require("./server");
 var router = require("./router");
-var controllerBase = require("./controllers/base");
 var user = require("./controllers/user");
 var list = require("./controllers/list");
 var task = require("./controllers/task");
@@ -18,10 +17,8 @@ router.get('/', function(request, response, path) {
 .get('/user/edit', function(request, response, path) {
 	user.showPageEdit(response, request);
 })
-// use showPage function to handle POST request for now
-// TODO: refactor to go directly to the update function eventually
 .post('/user/edit', function(request, response, path) {
-	user.showPageEdit(response, request);
+	user.update(response, request);
 })
 .get('/user/login', function(request, response, path) {
 	user.showPageLogin(response, request);
@@ -57,9 +54,7 @@ router.get('/', function(request, response, path) {
 	list.showPageDetail(response, request, listId);
 })
 .post('/lists/*', function(request, response, listId) {
-	var pageData = new controllerBase.PageData();
-	pageData.title = "Incomplete Tasks - Node List";
-	list.updateTasks(response, request, pageData, listId);
+	list.updateTasks(response, request, listId);
 })
 .get('/lists/*/update', function(request, response, listId) {
 	list.showPageEdit(response, request, listId);

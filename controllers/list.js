@@ -57,8 +57,11 @@ function update(response, request, listId) {
 	});
 }
 
-function updateTasks(response, request, pageData, listId) {
+function updateTasks(response, request, listId) {
+	var pageData = new base.PageData();
 	var form = new formidable.IncomingForm();
+
+	pageData.title = "Incomplete Tasks - Node List";
 	form.parse(request, function(error, fields, files) {
 		var tasks = [];
 		for(key in fields) {

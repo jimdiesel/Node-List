@@ -35,9 +35,12 @@ function login(response, request) {
 	});
 }
 
-function update(response, request, pageData) {
+function update(response, request) {
+	var pageData = new base.PageData();
 	var user = new User();
 	var form = new formidable.IncomingForm();
+
+	pageData.title = "Update Profile - Node List";
 	form.parse(request, function(error, fields, files) {
 		// TODO: add form validation later
 		user.id = request.session.data.user;
