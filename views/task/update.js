@@ -3,6 +3,8 @@ var base = require("../base");
 function build(response, request, pageData, task, listId) {
 	var html = '';
 	html = html + base.openPage(pageData);
+	html = html +
+		'<nav><a href="/lists/' + listId + '/' + task.id + '">&laquo; Back</a></nav>';
 	if (task == 'undefined' || task == null) {
 		html = html + '<h1>Task not found</h1>';
 	} else {
@@ -21,10 +23,11 @@ function build(response, request, pageData, task, listId) {
 			'<button type="submit">Update Task</button>'+
 			'</fieldset>'+
 			'</form>';
-		html = html + base.closePage(pageData);
-		response.writeHead(200, {"Content-Type": "text/html"});
-		response.write(html);
-		response.end();
+	}
+	html = html + base.closePage(pageData);
+	response.writeHead(200, {"Content-Type": "text/html"});
+	response.write(html);
+	response.end();
 }
 
 exports.build = build;

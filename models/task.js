@@ -28,7 +28,7 @@ function update(task, callback) {
 			return;
 		}
 		if (callback && typeof(callback) == 'function') {
-			callback();
+			callback(true);
 		}
 	});
 	client.end();

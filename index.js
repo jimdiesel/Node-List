@@ -76,6 +76,12 @@ router.get('/', function(request, response, path) {
 .get('/lists/*/*', function(request, response, listId, taskId) {
 	task.showPageDetail(response, request, listId, taskId);
 })
+.get('/lists/*/*/edit', function(request, response, listId, taskId) {
+	task.showPageUpdate(response, request, listId, taskId);
+})
+.post('/lists/*/*/edit', function(request, response, listId, taskId) {
+	task.update(response, request, listId, taskId);
+})
 .notFound(function(request, response) {
 	response.writeHead(404, {"Content-Type": "text/html"});
 	response.write("<h1>You done goofed - Page not found</h1>");

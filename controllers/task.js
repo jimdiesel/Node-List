@@ -1,6 +1,6 @@
 var taskPage = require("../views/task/index"),
 	createPage = require("../views/task/create"),
-	//updatePage = require("../views/task/update"),
+	updatePage = require("../views/task/update"),
 	base = require("./base"),
 	taskDb = require("../models/task"),
 	listDb = require("../models/list"),
@@ -32,8 +32,29 @@ function create(response, request, listId) {
 	});
 }
 
-function update(response, request, pageData) {
-
+function update(response, request, listId, taskId) {
+	var task = new Task();
+	var form = new formidable.IncomingForm();
+	form.parse(request, function(error, fields, files) {
+		// TODO: add form validation
+		// name field is required
+		task.id = taskId;
+		task.listId = listId;
+		task.name = fields["name"];
+		task.note = fields["note"];
+		taskDb.update(task, function(success) {
+			if (success) {
+				response.writeHead(302, {"Location": '/lists/' + listId + '/' + taskId});
+				response.end();
+			} else {
+				pageData.title = "Update Task = Node List";
+				pageData.message = "Error updating task. Please try again.";
+				taskDb.selectById(taskId, function(task) {
+					updatePage.build(response, request, pageData, task, listId);
+				});
+			}
+		});
+	});
 }
 
 function deleteTask(response, request, pageData) {
