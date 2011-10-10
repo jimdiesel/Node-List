@@ -8,6 +8,7 @@ function build(response, request, pageData, list, tasks) {
 		'<h1>Tasks for ' + list.name + '</h1>';
 	if (tasks != 'undefined' && tasks != null) {
 		html = html +
+			'<p><small>Click \'x\' to delete a task</small></p>'+
 			'<p><a href="/lists/' + list.id + '/add">Add a Task</a></p>'+
 			'<form action="/lists/' + list.id + '" method="post">'+
 			'<section>'+
@@ -20,6 +21,7 @@ function build(response, request, pageData, list, tasks) {
 					'<label>'+
 					'<input type="checkbox" name="' + tasks[i].id + '" />'+
 					' <a href="/lists/' + list.id + '/' + tasks[i].id + '">' + tasks[i].name + '</a>'+
+					' [<a href="/lists/' + list.id + '/' + tasks[i].id + '/delete/confirm">x</a>]'+
 					'</label>'+
 					'</li>';
 			}
