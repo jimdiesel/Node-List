@@ -2,6 +2,7 @@ var listPage = require("../views/list/index"),
 	createPage = require("../views/list/create"),
 	updatePage = require("../views/list/update"),
 	detailPage = require("../views/list/detail"),
+	deletePage = require("../views/list/delete"),
 	base = require("./base"),
 	taskController = require("./task"),
 	listDb = require("../models/list"),
@@ -78,7 +79,13 @@ function updateTasks(response, request, pageData, listId) {
 	});
 }
 
-function deleteList(response, request, pageData) {
+function deleteList(response, request, listId) {
+	base.validateUser(request, response, true, function(user) {
+		listDb.deleteById(listId, function(success) {
+			response.writeHead(302, {"Location": "/lists"});
+			response.end();
+		});
+	});
 }
 
 function showPageList(response, request) {
@@ -132,6 +139,16 @@ function showPageEdit(response, request, listId) {
 	});
 }
 
+function showPageDelete(response, request, listId) {
+	base.validateUser(request, response, true, function(user) {
+		listDb.selectById(listId, function(list) {
+			var pageData = new base.PageData();
+			pageData.title = "Delete List - Node List";
+			deletePage.build(response, request, pageData, list);
+		});
+	});
+}
+
 function List() {
 	this.id = "";
 	this.user_id = "";
@@ -149,3 +166,4 @@ exports.showPageList = showPageList;
 exports.showPageDetail = showPageDetail;
 exports.showPageCreate = showPageCreate;
 exports.showPageEdit = showPageEdit;
+exports.showPageDelete = showPageDelete;

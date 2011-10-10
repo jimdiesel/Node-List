@@ -5,7 +5,8 @@ function build(response, request, pageData, lists) {
 	html = html + base.openPage(pageData);
 	html = html +
 		'<nav><a href="/">&laquo; Back</a></nav>'+
-		'<h1>Your Lists</h1>';
+		'<h1>Your Lists</h1>'+
+		'<p><small>Click the \'x\' to delete a list</small></p>';
 	if (lists != 'undefined' && lists != null) {
 	html = html + '<ul>';
 	for (var i = 0;i < lists.length;i++) {

@@ -39,12 +39,9 @@ function update(list, callback) {
 function deleteById(id, callback) {
 	var client = base.init();
 	var values = [id];
-	// TODO: future enhancement:
-	// modify query to also delete tasks
-	// associated with the deleted list
 	client.query('DELETE FROM lists WHERE id = ?', values, function(error, results) {
 		if (error) {
-			console.log("Error deleting user: " + error.message);
+			console.log("Error deleting list: " + error.message);
 			client.end();
 			return;
 		}
