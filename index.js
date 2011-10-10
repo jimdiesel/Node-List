@@ -65,7 +65,7 @@ router.get('/', function(request, response, path) {
 	list.showPageEdit(response, request, listId);
 })
 .post('/lists/*/update', function(request, response, listId) {
-	list.showPageEdit(response, request, listId);
+	list.update(response, request, listId);
 })
 .get('/lists/*/delete/confirm', function(request, response, listId) {
 	list.showPageDelete(response, request, listId);

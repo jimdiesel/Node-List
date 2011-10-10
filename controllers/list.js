@@ -34,7 +34,7 @@ function create(response, request) {
 	});
 }
 
-function update(response, request, pageData, listId) {
+function update(response, request, listId) {
 	var list = new List();
 	var form = new formidable.IncomingForm();
 	form.parse(request, function(error, fields, files) {
@@ -48,6 +48,8 @@ function update(response, request, pageData, listId) {
 				response.writeHead(302, {"Location": '/lists/' + listId});
 				response.end();
 			} else {
+				var pageData = new base.PageData();
+				pageData.title = "Update List - Node List";
 				pageData.message = "Error updating list. Please try again";
 				updatePage.build(response, request, pageData, list);
 			}
@@ -66,7 +68,6 @@ function updateTasks(response, request, pageData, listId) {
 			// done later
 			
 			var complete = (fields[key].indexOf('on') != -1) ? 1 : 0;
-			//taskDb.updateComplete(key, complete);
 			tasks.push({id: key, complete: complete});
 		}
 		taskDb.updateComplete(tasks, function() {
@@ -124,18 +125,11 @@ function showPageCreate(response, request) {
 
 function showPageEdit(response, request, listId) {
 	base.validateUser(request, response, true, function(user) {
-		var pageData = new base.PageData();
-		pageData.title = "Edit List - Node List";
-		if (request.method.toLowerCase() == "post") {
-			update(response, request, pageData, listId);
-		} else {
-			listDb.selectById(listId, function(list) {
-				if (list == null || list == 'undefined') {
-					response.writeHead(302, {"Location": "/user/login"});
-				}
-				updatePage.build(response, request, pageData, list);
-			});
-		}
+		listDb.selectById(listId, function(list) {
+			var pageData = new base.PageData();
+			pageData.title = "Edit List - Node List";
+			updatePage.build(response, request, pageData, list);
+		});
 	});
 }
 

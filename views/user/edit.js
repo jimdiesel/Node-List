@@ -13,11 +13,11 @@ function build(response, request, pageData, user) {
 		'<fieldset>'+
 		'<label>'+
 		'Email address: '+
-		'<input type="text" name="email" value="' + user.email + '" />'+
+		'<input type="email" name="email" value="' + user.email + '" />'+
 		'</label><br />'+
 		'<label>'+
 		'Name: '+
-		'<input type="email" name="name" value="' + user.name + '" />'+
+		'<input type="text" name="name" value="' + user.name + '" />'+
 		'</label><br />'+
 		'<label>'+
 		'Password <small>Only enter here if you wish to change your password</small>:'+
