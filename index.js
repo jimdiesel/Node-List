@@ -1,5 +1,3 @@
-var server = require("./server");
-var router = require("./router");
 var user = require("./controllers/user");
 var list = require("./controllers/list");
 var task = require("./controllers/task");
