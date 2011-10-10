@@ -19,7 +19,19 @@ function create(task, callback) {
 }
 
 function update(task, callback) {
-
+	var client = base.init();
+	var values = [task.name, task.note, task.id];
+	client.query('UPDATE tasks SET name = ?, note = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
+		if (error) {
+			console.log("Error creating task: " + error.message);
+			client.end();
+			return;
+		}
+		if (callback && typeof(callback) == 'function') {
+			callback();
+		}
+	});
+	client.end();
 }
 
 function updateComplete(tasks, callback) {
