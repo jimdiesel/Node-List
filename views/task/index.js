@@ -19,7 +19,8 @@ function build(response, request, pageData, task, listId) {
 			'<dd>' + task.created + '</dd>'+
 			'<dt>Last Modified:</dt>'+
 			'<dd>' + task.modified + '</dd>'+
-			'</dl>';
+			'</dl>'+
+			'<a href="/lists/' + listId + '/' + task.id + '/edit">Edit this Task</a>';
 	}
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});
