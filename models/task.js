@@ -71,7 +71,7 @@ function selectById(id, callback) {
 	var values = [id];
 	var task;
 
-	client.query('SELECT id, list_id, name, note, complete, order_by, created, modified FROM tasks WHERE id = ?', values, function(error, results) {
+	client.query('SELECT id, list_id, name, note, complete, order_by, DATE_FORMAT(created, \'%c/%e/%Y %h:%i%p\') as created, DATE_FORMAT(modified, \'%c/%e/%Y %h:%i%p\') as modified FROM tasks WHERE id = ?', values, function(error, results) {
 		if (error) {
 			console.log("Error selecting task: " + error.message);
 			client.end();
@@ -95,7 +95,7 @@ function selectByListId(listId, callback) {
 	var client = base.init();
 	var values = [listId];
 	var tasks;
-	client.query('SELECT id,list_id,name,note,complete,order_by,created,modified FROM tasks WHERE list_id = ?', values, function(error, results) {
+	client.query('SELECT id,list_id,name,note,complete,order_by,DATE_FORMAT(created, \'%c/%e/%Y %h:%i%p\') as created,DATE_FORMAT(modified, \'%c/%e/%Y %h:%i%p\') as modified FROM tasks WHERE list_id = ?', values, function(error, results) {
 		if (error) {
 			console.log("Error selecting tasks: " + error.message);
 			client.end();
