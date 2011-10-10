@@ -12,7 +12,7 @@ function build(response, request, pageData) {
 		'List Name: '+
 		'<input type="text" name="name" />'+
 		'</label><br />'+
-		'<input type="submit" value="Create" />'+
+		'<button type="submit">Create List</button>'+
 		'</form>';
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});

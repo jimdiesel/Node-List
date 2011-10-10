@@ -16,7 +16,7 @@ function build(response, request, pageData, listId) {
 		'Note: '+
 		'<textarea name="note" rows="2" cols="20"></textarea>'+
 		'</label><br />'+
-		'<input type="submit" value="Add Task" />'+
+		'<button type="submit">Add Task</button>'+
 		'</fieldset>'+
 		'</form>';
 	html = html + base.closePage(pageData);

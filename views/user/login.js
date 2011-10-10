@@ -9,7 +9,7 @@ function build(response, request, pageData) {
 		'<fieldset>'+
 		'<label>'+
 		'Email Address: '+
-		'<input type="text" name="email" />'+
+		'<input type="email" name="email" />'+
 		'</label><br />'+
 		'<label>'+
 		'Password: '+

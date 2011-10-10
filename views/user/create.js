@@ -13,11 +13,11 @@ function build(response, request, pageData) {
 		'</label><br />'+
 		'<label>'+
 		'Email Address: '+
-		'<input type="text" name="email" />'+
+		'<input type="email" name="email" />'+
 		'</label><br />'+
 		'<label>'+
 		'Re-enter Email: '+
-		'<input type="text" name="email2" />'+
+		'<input type="email" name="email2" />'+
 		'</label><br />'+
 		'<label>'+
 		'Password: '+
@@ -27,7 +27,7 @@ function build(response, request, pageData) {
 		'Re-enter Password: '+
 		'<input type="password" name="password2" />'+
 		'</label><br />'+
-		'<input type="submit" value="Sign Up" />'+
+		'<button type="submit">Sign Up</button>'+
 		'</fieldset>'+
 		'</form>';
 	html = html + base.closePage(pageData);

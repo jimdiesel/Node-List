@@ -17,7 +17,7 @@ function build(response, request, pageData, user) {
 		'</label><br />'+
 		'<label>'+
 		'Name: '+
-		'<input type="text" name="name" value="' + user.name + '" />'+
+		'<input type="email" name="name" value="' + user.name + '" />'+
 		'</label><br />'+
 		'<label>'+
 		'Password <small>Only enter here if you wish to change your password</small>:'+
@@ -27,7 +27,7 @@ function build(response, request, pageData, user) {
 		'Re-Enter Password <small>Only if you\'ve entered a new password above</small>:'+
 		'<input type="password" name="password2" />'+
 		'</label><br />'+
-		'<input type="submit" value="Update Profile" />'+
+		'<button type="submit">Update Profile</button>'+
 		'</fieldset>'+
 		'</form>';
 	html = html + base.closePage(pageData);

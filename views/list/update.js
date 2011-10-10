@@ -12,7 +12,7 @@ function build(response, request, pageData, list) {
 		'Name: '+
 		'<input type="text" name="name" value="' + list.name + '" />'+
 		'</label><br />'+
-		'<input type="submit" value="Update" />'+
+		'<button type="submit">Update</button>'+
 		'</fieldset>'+
 		'</form>';
 	html = html + base.closePage(pageData);
