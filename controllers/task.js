@@ -57,8 +57,14 @@ function showPageCreate(response, request, listId) {
 	});
 }
 
-function showPageUpdate(response, request, pageData) {
-
+function showPageUpdate(response, request, listId, taskId) {
+	base.validateUser(request, response, true, function(user) {
+		taskDb.selectById(taskId, function(task) {
+			var pageData = new base.PageData();
+			pageData.title = "Update Task - Node List";
+			updatePage.build(response, request, pageData, task, listId);
+		});
+	});
 }
 
 function Task() {
