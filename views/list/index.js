@@ -10,14 +10,14 @@ function build(response, request, pageData, lists) {
 	html = html + '<ul>';
 	for (var i = 0;i < lists.length;i++) {
 		html = html +
-			'<li><a href="/lists/' + lists[i].id + '">' + lists[i].name + '</a></li>';
+			'<li><a href="/lists/' + lists[i].id + '">' + lists[i].name + '</a> [<a href="/lists/' + lists[i].id + '/delete/confirm">x</a>]</li>';
 	}
 	html = html +
 		'</ul>'+
 		'<p><a href="/lists/add">Create a new list</a></p>';
 	} else {
 		html = html+
-			'<p>You don\' have anything to do! Get started and <a href="/lists/add">create a list</a>.</p>';
+			'<p>You don\'t have anything to do! Get started and <a href="/lists/add">create a list</a>.</p>';
 	}
 	html = html + base.closePage(pageData);
 	response.writeHead(200, {"Content-Type": "text/html"});
