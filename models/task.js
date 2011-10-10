@@ -59,11 +59,19 @@ function updateComplete(tasks, callback) {
 }
 
 function deleteById(id, callback) {
-
-}
-
-function deleteByListId(listId, callback) {
-
+	var client = base.init();
+	var values = [id];
+	client.query('DELETE FROM tasks WHERE id = ?', values, function(error, results) {
+		if (error) {
+			console.log("Error deleting task: " + error.message);
+			client.end();
+			return;
+		}
+		if (callback && typeof(callback) == 'function') {
+			callback(true);
+		}
+	});
+	client.end();
 }
 
 function selectById(id, callback) {
@@ -115,6 +123,5 @@ exports.create = create;
 exports.update = update;
 exports.updateComplete = updateComplete;
 exports.deleteById = deleteById;
-exports.deleteByListId = deleteByListId;
 exports.selectById = selectById;
 exports.selectByListId = selectByListId;

@@ -1,6 +1,7 @@
 var taskPage = require("../views/task/index"),
 	createPage = require("../views/task/create"),
 	updatePage = require("../views/task/update"),
+	deletePage = require("../views/task/delete"),
 	base = require("./base"),
 	taskDb = require("../models/task"),
 	listDb = require("../models/list"),
@@ -57,8 +58,13 @@ function update(response, request, listId, taskId) {
 	});
 }
 
-function deleteTask(response, request, pageData) {
-	
+function deleteTask(response, request, listId, taskId) {
+	base.validateUser(request, response, true, function(user) {
+		taskDb.deleteById(taskId, function(success) {
+			response.writeHead(302, {"Location": "/lists/" + listId});
+			response.end();
+		});
+	});
 }
 
 function showPageDetail(response, request, listId, taskId) {
@@ -88,6 +94,16 @@ function showPageUpdate(response, request, listId, taskId) {
 	});
 }
 
+function showPageDelete(response, request, listId, taskId) {
+	base.validateUser(request, response, true, function(user) {
+		taskDb.selectById(taskId, function(task) {
+			var pageData = new base.PageData();
+			pageData.title = "Delete Task - Node List";
+			deletePage.build(response, request, pageData, listId, task);
+		});
+	});
+}
+
 function Task() {
 	this.id = "";
 	this.list_id = "";
@@ -105,3 +121,4 @@ exports.deleteTask = deleteTask;
 exports.showPageDetail = showPageDetail;
 exports.showPageCreate = showPageCreate;
 exports.showPageUpdate = showPageUpdate;
+exports.showPageDelete = showPageDelete;

@@ -40,6 +40,7 @@ function build(response, request, pageData, list, tasks) {
 					'<input type="hidden" name="' + tasks[i].id + '" value="0" />'+
 					'<input type="checkbox" name="' + tasks[i].id + '" checked="checked" />'+
 					' <a href="/lists/' + list.id + '/' + tasks[i].id + '">' + tasks[i].name + '</a>'+
+					' [<a href="/lists/' + list.id + '/' + tasks[i].id + '/delete/confirm">x</a>]'+
 					'</label>'+
 					'</li>';
 			}

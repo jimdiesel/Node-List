@@ -88,6 +88,12 @@ router.get('/', function(request, response, path) {
 .post('/lists/*/*/edit', function(request, response, listId, taskId) {
 	task.update(response, request, listId, taskId);
 })
+.get('/lists/*/*/delete/confirm', function(request, response, listId, taskId) {
+	task.showPageDelete(response, request, listId, taskId);
+})
+.get('/lists/*/*/delete', function(request, response, listId, taskId) {
+	task.deleteTask(response, request, listId, taskId);
+})
 .notFound(function(request, response) {
 	response.writeHead(404, {"Content-Type": "text/html"});
 	response.write("<h1>You done goofed - Page not found</h1>");
