@@ -19,7 +19,8 @@ function login(response, request) {
 
 	pageData.title = "Log In - Node List";
 	form.parse(request, function(error, fields, files) {
-		userDb.selectByEmail(fields["email"], function (user) {
+		var email = base.sanitize(fields["email"]);
+		userDb.selectByEmail(email, function (user) {
 			if (user == null || user == 'undefined') {
 				pageData.message = "Email address does not exist. Please try another email address.";
 				loginPage.build(response, request, pageData);
