@@ -47,23 +47,34 @@ function create(response, request) {
 function update(response, request, listId) {
 	var list = new List();
 	var form = new formidable.IncomingForm();
+	var pageData = new base.PageData();
+
+	pageData.title = "Update List - Node List";
+	pageData.message = "Error updating list. Please try again";
 	form.parse(request, function(error, fields, files) {
-		// TODO: add form validation
-		// name field is required
+		var validate = new base.Validate();
+		var isValid = true;
+
 		list.id = listId;
 		list.user_id = request.session.data.user;
 		list.name = fields["name"];
-		listDb.update(list, function(success) {
-			if (success) {
-				response.writeHead(302, {"Location": '/lists/' + listId});
-				response.end();
-			} else {
-				var pageData = new base.PageData();
-				pageData.title = "Update List - Node List";
-				pageData.message = "Error updating list. Please try again";
-				updatePage.build(response, request, pageData, list);
-			}
-		});
+
+		if (validate.Required(fields["name"]) == false) {
+			isValid = false;
+			pageData.message = "Name is required<br />";
+		}
+		if (isValid == true) {
+			listDb.update(list, function(success) {
+				if (success) {
+					response.writeHead(302, {"Location": '/lists/' + listId});
+					response.end();
+				} else {
+					updatePage.build(response, request, pageData, list);
+				}
+			});
+		} else {
+			updatePage.build(response, request, pageData, list);
+		}
 	});
 }
 
