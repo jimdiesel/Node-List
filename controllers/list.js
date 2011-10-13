@@ -104,9 +104,11 @@ function updateTasks(response, request, listId) {
 
 function deleteList(response, request, listId) {
 	base.validateUser(request, response, true, function(user) {
-		listDb.deleteById(listId, function(success) {
-			response.writeHead(302, {"Location": "/lists"});
-			response.end();
+		base.validateList(request, response, true, user, listId, function(list) {
+			listDb.deleteById(listId, function(success) {
+				response.writeHead(302, {"Location": "/lists"});
+				response.end();
+			});
 		});
 	});
 }
@@ -123,17 +125,13 @@ function showPageList(response, request) {
 
 function showPageDetail(response, request, listId) {
 	base.validateUser(request, response, true, function(user) {
-		var pageData = new base.PageData();
-		pageData.title = "Incomplete Tasks - Node List";
-		if (request.method.toLowerCase == 'post') {
-			updateTasks(response, request, pageData);
-		} else {
+		base.validateList(request, response, true, user, listId, function(list) {
+			var pageData = new base.PageData();
+			pageData.title = "Incomplete Tasks - Node List";
 			taskDb.selectByListId(listId, function(tasks) {
-				listDb.selectById(listId, function(list) {
-					detailPage.build(response, request, pageData, list, tasks);
-				});
+				detailPage.build(response, request, pageData, list, tasks);
 			});
-		}
+		});
 	});
 }
 
@@ -147,7 +145,7 @@ function showPageCreate(response, request) {
 
 function showPageEdit(response, request, listId) {
 	base.validateUser(request, response, true, function(user) {
-		listDb.selectById(listId, function(list) {
+		base.validateList(request, response, true, user, listId, function(list) {
 			var pageData = new base.PageData();
 			pageData.title = "Edit List - Node List";
 			updatePage.build(response, request, pageData, list);
@@ -157,7 +155,7 @@ function showPageEdit(response, request, listId) {
 
 function showPageDelete(response, request, listId) {
 	base.validateUser(request, response, true, function(user) {
-		listDb.selectById(listId, function(list) {
+		base.validateList(request, response, true, user, listId, function(list) {
 			var pageData = new base.PageData();
 			pageData.title = "Delete List - Node List";
 			deletePage.build(response, request, pageData, list);

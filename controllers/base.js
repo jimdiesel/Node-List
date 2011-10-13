@@ -1,6 +1,8 @@
 var userDb = require("../models/user"),
+	listDb = require("../models/list"),
 	querystring = require("querystring"),
 	http = require("http"),
+	errorPage = require("../views/error"),
 	session = require("../node_modules/sesh/lib/core").magicSession();
 require("joose");
 require("joosex-namespace-depended");
@@ -41,6 +43,41 @@ function validateUser(request, response, redirect, callback) {
 	}
 }
 
+function validateList(request, response, redirect, user, listId, callback) {
+	var validate = new Validate();
+	if (validate.Integer(listId) == true) {
+		listDb.selectById(listId, function(list) {
+			if (list == null || list == 'undefined') {
+				if (redirect == true) {
+					redirectToError(request, response, "List does not exist");
+				} else {
+					return false;
+				}
+			} else {
+				if (list.user_id != user.id) {
+					if (redirect == true) {
+						redirectToError(request, response, "You don't have permission to view this list");
+					} else {
+						return false;
+					}
+				} else {
+					if (callback && typeof(callback) == 'function') {
+						callback(list);
+					} else {
+						return true;
+					}
+				}
+			}
+		});
+	} else {
+		if (redirect == true) {
+			redirectToError(request, response, "List does not exist");
+		} else {
+			return false;
+		}
+	}
+}
+
 function isLoggedIn(request) {
 	if (request.session != undefined && request.session != null && request.session.data.user != undefined && request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined' && request.session.data.user != "Guest") {
 		return true;
@@ -52,6 +89,13 @@ function isLoggedIn(request) {
 function redirectToLogin(response) {
 	response.writeHead(302, {"Location": "/user/login"});
 	response.end();
+}
+
+function redirectToError(request, response, message) {
+	var pageData = new PageData();
+	pageData.title = "Error - Node List";
+	pageData.message = message;
+	errorPage.build(response, request, pageData);
 }
 
 function Validate() {
@@ -97,7 +141,9 @@ function sanitize(input) {
 
 exports.PageData = PageData;
 exports.validateUser = validateUser;
+exports.validateList = validateList;
 exports.isLoggedIn = isLoggedIn;
 exports.redirectToLogin = redirectToLogin;
+exports.redirectToError = redirectToError;
 exports.Validate = Validate;
 exports.sanitize = sanitize;
