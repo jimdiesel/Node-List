@@ -91,7 +91,6 @@ function selectByEmail(email, callback) {
 	var values = [email];
 	var user = null;
 	client.query('SELECT id,email,password,name,created,modified,last_login FROM users WHERE email = ?', values, function(error, results) {
-		console.log(results.length + " results returned.");
 		if(error) {
 			console.log("Error selecting user: " + error.message);
 			client.end();
@@ -101,7 +100,6 @@ function selectByEmail(email, callback) {
 			user = results[0];
 		}
 		if (callback && typeof(callback) == "function") {
-			console.log("user = " + user);
 			client.end();
 			callback(user);
 		}
