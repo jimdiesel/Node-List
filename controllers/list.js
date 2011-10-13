@@ -84,15 +84,13 @@ function updateTasks(response, request, listId) {
 
 	pageData.title = "Incomplete Tasks - Node List";
 	form.parse(request, function(error, fields, files) {
+		var validate = new base.Validate();
 		var tasks = [];
 		for(key in fields) {
-			// TODO: check if field name is numeric
-			// since all field names on the form are
-			// numbered checkboxes, this can be
-			// done later
-			
-			var complete = (fields[key].indexOf('on') != -1) ? 1 : 0;
-			tasks.push({id: key, complete: complete});
+			if (validate.Integer(key) == true) {
+				var complete = (fields[key].indexOf('on') != -1) ? 1 : 0;
+				tasks.push({id: key, complete: complete});
+			}
 		}
 		taskDb.updateComplete(tasks, function() {
 			taskDb.selectByListId(listId, function(tasks) {
