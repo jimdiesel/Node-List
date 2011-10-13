@@ -7,10 +7,12 @@ require("joosex-namespace-depended");
 require("hash");
 
 function PageData() {
+	this.bodyClass = '';
 	this.title = '';
 	this.metaDescription = '';
 	this.metaKeywords = '';
 	this.message = '';
+	this.statusCode = 200;
 }
 
 function validateUser(request, response, redirect, callback) {
