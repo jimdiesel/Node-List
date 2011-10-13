@@ -18,19 +18,29 @@ function create(response, request) {
 
 	pageData.title = "Create List - Node List";
 	form.parse(request, function(error, fields, files) {
-		// TODO: add form validation
-		//name is required
+		var validate = new base.Validate();
+		var isValid = true;
+
 		list.userId = request.session.data.user;
-		list.name = fields["name"];
-		listDb.create(list, list.userId, function(list) {
-			if (list) {
-				response.writeHead(302, {"Location": "/lists/" + list.id});
-				response.end();
-			} else {
-				pageData.message = "Error creating list. Please try again";
-				createPage.build(response, request, pageData);
-			}
-		});
+		list.name = base.sanitize(fields["name"]);
+
+		if (validate.Required(fields["name"]) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Name is required<br />";
+		}
+		if (isValid == true) {
+			listDb.create(list, list.userId, function(list) {
+				if (list) {
+					response.writeHead(302, {"Location": "/lists/" + list.id});
+					response.end();
+				} else {
+					pageData.message = "Error creating list. Please try again";
+					createPage.build(response, request, pageData);
+				}
+			});
+		} else {
+			createPage.build(response, request, pageData);
+		}
 	});
 }
 
