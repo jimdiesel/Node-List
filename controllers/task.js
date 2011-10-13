@@ -16,20 +16,30 @@ function create(response, request, listId) {
 
 	pageData.title = "Add Task - Node List";
 	form.parse(request, function(error, fields, files) {
-		// TODO: add form validation
-		// name is required
+		var validate = new base.Validate();
+		var isValid = true;
+
 		task.listId = listId;
-		task.name = fields["name"];
-		task.note = fields["note"];
-		taskDb.create(task, function(success) {
-			if (success) {
-				response.writeHead(302, {"Location": "/lists/" + listId});
-				response.end();
-			} else {
-				pageData.message = "Error creating task. Please try again";
-				createPgae.build(response, request, pageData, listId);
-			}
-		});
+		task.name = base.sanitize(fields["name"]);
+		task.note = base.sanitize(fields["note"]);
+
+		if (validate.Required(fields["name"]) == false) {
+			isValid = false;
+			pageData.message = "Name is required<br />";
+		}
+		if (isValid == true) {
+			taskDb.create(task, function(success) {
+				if (success) {
+					response.writeHead(302, {"Location": "/lists/" + listId});
+					response.end();
+				} else {
+					pageData.message = "Error creating task. Please try again";
+					createPgae.build(response, request, pageData, listId);
+				}
+			});
+		} else {
+			createPage.build(response, request, pageData, listId);
+		}
 	});
 }
 
