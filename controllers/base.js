@@ -52,7 +52,34 @@ function redirectToLogin(response) {
 	response.end();
 }
 
+function Validate() {
+	this.Email = function(field) {
+		// taken from http://www.marketingtechblog.com/design/javascript-regex-emailaddress/
+		var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		if (filter.test(field)) {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	this.Required = function(field) {
+		if (field != "") {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	this.Integer = function(field) {
+		if (parseInt(field) != Number.NaN) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
 exports.PageData = PageData;
 exports.validateUser = validateUser;
 exports.isLoggedIn = isLoggedIn;
 exports.redirectToLogin = redirectToLogin;
+exports.Validate = Validate;
