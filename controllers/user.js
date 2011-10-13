@@ -67,15 +67,53 @@ function create(response, request) {
 
 	pageData.title = "Create Account - Node List";
 	form.parse(request, function(error, fields, files) {
-		// TODO: need to add form validation
-		user.email = fields["email"];
+		var validate = new base.Validate();
+		var isValid = true;
+
+		user.email = base.sanitize(fields["email"]);
 		user.password = Hash.sha1(fields["password"]);
-		user.name = fields["name"];
-		user = userDb.create(user, function(user) {
-			request.session.data.user = user.id;
-			response.writeHead(302, {"Location": "/user"});
-			response.end();
-		});
+		user.name = base.sanitize(fields["name"]);
+
+		if (validate.Required(user.name) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Tell us your name<br />";
+		}
+		if (validate.Required(user.email) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Email is required<br />";
+		} else if (validate.Email(user.email) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Email is invalid<br />";
+		}
+		if (fields["email"] != fields["email2"]) {
+			isValid = false;
+			pageData.message = pageData.message + "Emails do not match<br />";
+		}
+		if (validate.Required(fields["password"]) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Password is required<br />";
+		}
+		if (fields["password"] != fields["password2"]) {
+			isValid = false;
+			pageData.message = pageData.message + "Passwords do not match<br />";
+		}
+
+		if (isValid == true) {
+			userDb.selectByEmail(user.email, function(existingUser) {
+				if (existingUser == null) {
+					userDb.create(user, function(user) {
+						request.session.data.user = user.id;
+						response.writeHead(302, {"Location": "/user"});
+						response.end();
+					});
+				} else {
+					pageData.message = pageData.message + "Email is already used. Please try another one.";
+					createPage.build(response, request, pageData);
+				}
+			});
+		} else {
+			createPage.build(response, request, pageData);
+		}
 	});
 }
 

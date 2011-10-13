@@ -78,8 +78,24 @@ function Validate() {
 	}
 }
 
+function sanitize(input) {
+	// simple method to sanitize inputs
+	// escapes quotes and replaces > and < with html entities
+	// TODO: revisit with more sophisticated sanitization method
+
+	input = input.replace('>', '&gt;');
+	input = input.replace('<', '&lt;');
+	input = input.replace('\\\'', '\'');
+	input = input.replace('\'', '\\\'');
+	input = input.replace('\\\"', '\"');
+	input = input.replace('\"', '\\\"');
+
+	return input;
+}
+
 exports.PageData = PageData;
 exports.validateUser = validateUser;
 exports.isLoggedIn = isLoggedIn;
 exports.redirectToLogin = redirectToLogin;
 exports.Validate = Validate;
+exports.sanitize = sanitize;
