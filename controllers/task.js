@@ -44,27 +44,41 @@ function create(response, request, listId) {
 }
 
 function update(response, request, listId, taskId) {
+	var pageData = new base.PageData();
 	var task = new Task();
 	var form = new formidable.IncomingForm();
+	
+	pageData.title = "Update Task - Node List";
 	form.parse(request, function(error, fields, files) {
-		// TODO: add form validation
-		// name field is required
+		var validate = new base.Validate();
+		var isValid = true;
+
 		task.id = taskId;
 		task.listId = listId;
 		task.name = fields["name"];
 		task.note = fields["note"];
-		taskDb.update(task, function(success) {
-			if (success) {
-				response.writeHead(302, {"Location": '/lists/' + listId + '/' + taskId});
-				response.end();
-			} else {
-				pageData.title = "Update Task = Node List";
-				pageData.message = "Error updating task. Please try again.";
-				taskDb.selectById(taskId, function(task) {
-					updatePage.build(response, request, pageData, task, listId);
-				});
-			}
-		});
+
+		if (validate.Required(fields["name"]) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Name is required<br />";
+		}
+		if (isValid == true) {
+			taskDb.update(task, function(success) {
+				if (success) {
+					response.writeHead(302, {"Location": '/lists/' + listId + '/' + taskId});
+					response.end();
+				} else {
+					pageData.message = "Error updating task. Please try again.";
+					taskDb.selectById(taskId, function(task) {
+						updatePage.build(response, request, pageData, task, listId);
+					});
+				}
+			});
+		} else {
+			taskDb.selectById(taskId, function(task) {
+				updatePage.build(response, request, pageData, task, listId);
+			});
+		}
 	});
 }
 

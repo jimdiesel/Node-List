@@ -10,6 +10,7 @@ function build(response, request, pageData, task, listId) {
 	} else {
 		html = html +
 			'<h1>Edit Task</h1>'+
+			'<p class="message">' + pageData.message + '</p>'+
 			'<form action="/lists/' + listId + '/' + task.id + '/edit" method="post">'+
 			'<fieldset>'+
 			'<label>'+
