@@ -42,21 +42,51 @@ function update(response, request) {
 
 	pageData.title = "Update Profile - Node List";
 	form.parse(request, function(error, fields, files) {
-		// TODO: add form validation later
+		var validate = new base.Validate();
+		var isValid = true;
+
 		user.id = request.session.data.user;
-		user.email = fields["email"];
-		user.name = fields["name"];
+		user.email = base.sanitize(fields["email"]);
+		user.name = base.sanitize(fields["name"]);
+
+		if (validate.Required(fields["email"]) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Email is required<br />";
+		} else if (validate.Email(fields["email"]) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Email is not valid<br />";
+		}
+		if (validate.Required(fields["name"]) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Name is required<br />";
+		}
+
 		if (fields["password"] != "") {
 			user.password = Hash.sha1(fields["password"]);
-		}
-		userDb.update(user, function(success) {
-			if (success) {
-				pageData.message = "Update successful";
-			} else {
-				pageData.message = "Error updating your profile. Please try again";
+			if (fields["password"] != fields["password2"]) {
+				isValid = false;
+				pageData.message = pageData.message + "Passwords do not match";
 			}
+		}
+		if (isValid == true) {
+			userDb.selectById(user.email, function(existingUser) {
+				if (existingUser == null) {
+					userDb.update(user, function(success) {
+						if (success) {
+							pageData.message = "Update successful";
+						} else {
+							pageData.message = "Error updating your profile. Please try again";
+						}
+						editPage.build(response, request, pageData, user);
+					});
+				} else {
+					pageData.message = pageData.message + "Email address is already used. Please try another one<br />";
+					editPage.build(response, request, pageData, user);
+				}
+			});
+		} else {
 			editPage.build(response, request, pageData, user);
-		});
+		}
 	});
 }
 
