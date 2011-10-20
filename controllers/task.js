@@ -93,9 +93,11 @@ function deleteTask(response, request, listId, taskId) {
 
 function showPageDetail(response, request, listId, taskId) {
 	base.validateUser(request, response, true, function(user) {
-		var pageData = new base.PageData();
-		taskDb.selectById(taskId, function(task) {
-			taskPage.build(response, request, pageData, task, listId);
+		base.validateList(request, response, true, user, listId, function(list) {
+			base.validateTask(request, response, true, user, list, taskId, function(task) {
+				var pageData = new base.PageData();
+				taskPage.build(response, request, pageData, task, listId);
+			});
 		});
 	});
 }

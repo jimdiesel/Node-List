@@ -1,5 +1,6 @@
 var userDb = require("../models/user"),
 	listDb = require("../models/list"),
+	taskDb = require("../models/task"),
 	querystring = require("querystring"),
 	http = require("http"),
 	errorPage = require("../views/error"),
@@ -78,6 +79,41 @@ function validateList(request, response, redirect, user, listId, callback) {
 	}
 }
 
+function validateTask(request, response, redirect, user, list, taskId, callback) {
+	var validate = new Validate();
+	if (validate.Integer(taskId) == true) {
+		taskDb.selectById(taskId, function(task) {
+			if (task == null || task == 'undefined') {
+				if (redirect == true) {
+					redirectToError(request, response, "Task does not exist");
+				} else {
+					return false;
+				}
+			} else {
+				if (task.list_id != list.id) {
+					if (redirect == true) {
+						redirectToError(request, response, "Task is not part of this list");
+					} else {
+						return false;
+					}
+				} else {
+					if (callback && typeof(callback) == 'function') {
+						callback(task);
+					} else {
+						return true;
+					}
+				}
+			}
+		});
+	} else {
+		if (redirect == true) {
+			redirectToError(request, response, "Task does not exist");
+		} else {
+			return false;
+		}
+	}
+}
+
 function isLoggedIn(request) {
 	if (request.session != undefined && request.session != null && request.session.data.user != undefined && request.session.data.user != null && request.session.data.user != '' && request.session.data.user != 'undefined' && request.session.data.user != "Guest") {
 		return true;
@@ -116,7 +152,8 @@ function Validate() {
 		}
 	},
 	this.Integer = function(field) {
-		if (parseInt(field) != Number.NaN) {
+		var result = parseInt(field);
+		if (!isNaN(result) && isFinite(result)) {
 			return true;
 		} else {
 			return false;
@@ -142,6 +179,7 @@ function sanitize(input) {
 exports.PageData = PageData;
 exports.validateUser = validateUser;
 exports.validateList = validateList;
+exports.validateTask = validateTask;
 exports.isLoggedIn = isLoggedIn;
 exports.redirectToLogin = redirectToLogin;
 exports.redirectToError = redirectToError;

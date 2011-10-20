@@ -82,14 +82,9 @@ function selectById(id, callback) {
 	client.query('SELECT id, list_id, name, note, complete, order_by, DATE_FORMAT(created, \'%c/%e/%Y %h:%i%p\') as created, DATE_FORMAT(modified, \'%c/%e/%Y %h:%i%p\') as modified FROM tasks WHERE id = ?', values, function(error, results) {
 		if (error) {
 			console.log("Error selecting task: " + error.message);
-			client.end();
-			return;
 		}
 		if (results.length > 0) {
 			task = results[0];
-		} else {
-			client.end();
-			return;
 		}
 		// TODO: make callback check into helper method
 		if (callback && typeof(callback) == "function") {
