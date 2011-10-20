@@ -84,9 +84,13 @@ function update(response, request, listId, taskId) {
 
 function deleteTask(response, request, listId, taskId) {
 	base.validateUser(request, response, true, function(user) {
-		taskDb.deleteById(taskId, function(success) {
-			response.writeHead(302, {"Location": "/lists/" + listId});
-			response.end();
+		base.validateList(request, response, true, user, listId, function(list) {
+			base.validateTask(request, response, true, user, list, taskId, function(task) {
+				taskDb.deleteById(taskId, function(success) {
+					response.writeHead(302, {"Location": "/lists/" + listId});
+					response.end();
+				});
+			});
 		});
 	});
 }
@@ -126,10 +130,12 @@ function showPageUpdate(response, request, listId, taskId) {
 
 function showPageDelete(response, request, listId, taskId) {
 	base.validateUser(request, response, true, function(user) {
-		taskDb.selectById(taskId, function(task) {
-			var pageData = new base.PageData();
-			pageData.title = "Delete Task - Node List";
-			deletePage.build(response, request, pageData, listId, task);
+		base.validateList(request, response, true, user, listId, function(list) {
+			base.validateTask(request, response, true, user, list, taskId, function(task) {
+				var pageData = new base.PageData();
+				pageData.title = "Delete Task - Node List";
+				deletePage.build(response, request, pageData, listId, task);
+			});
 		});
 	});
 }
