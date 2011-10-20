@@ -104,9 +104,11 @@ function showPageDetail(response, request, listId, taskId) {
 
 function showPageCreate(response, request, listId) {
 	base.validateUser(request, response, true, function(user) {
-		var pageData = new base.PageData();
-		pageData.title = "Add Task - Node List";
-		createPage.build(response, request, pageData, listId);
+		base.validateList(request, response, true, user, listId, function(list) {
+			var pageData = new base.PageData();
+			pageData.title = "Add Task - Node List";
+			createPage.build(response, request, pageData, listId);
+		});
 	});
 }
 
