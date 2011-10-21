@@ -7,6 +7,7 @@ function build(response, request, pageData, list, tasks) {
 		'<nav><a href="/lists">&laquo; Back</a></nav>'+
 		'<h1>Tasks for ' + list.name + '</h1>';
 	if (tasks != 'undefined' && tasks != null) {
+		var incompleteCount = 0;
 		html = html +
 			'<p><small>Click \'x\' to delete a task</small></p>'+
 			'<p><a href="/lists/' + list.id + '/add">Add a Task</a></p>'+
@@ -16,6 +17,7 @@ function build(response, request, pageData, list, tasks) {
 			'<ul>';
 		for (var i = 0;i < tasks.length;i++) {
 			if (tasks[i].complete == '0') {
+				incompleteCount++;
 				html = html +
 					'<li>'+
 					'<label>'+
@@ -28,26 +30,30 @@ function build(response, request, pageData, list, tasks) {
 		}
 		html = html +
 			'</ul>'+
-			'</section>'+
-			'<section>'+
-			'<h2>Completed Tasks</h2>'+
-			'<ul>';
-		for (var i = 0;i < tasks.length;i++) {
-			if (tasks[i].complete == '1') {
-				html = html +
-					'<li>'+
-					'<label>'+
-					'<input type="hidden" name="' + tasks[i].id + '" value="0" />'+
-					'<input type="checkbox" name="' + tasks[i].id + '" checked="checked" />'+
-					' <a href="/lists/' + list.id + '/' + tasks[i].id + '">' + tasks[i].name + '</a>'+
-					' [<a href="/lists/' + list.id + '/' + tasks[i].id + '/delete/confirm">x</a>]'+
-					'</label>'+
-					'</li>';
+			'</section>';
+		if (incompleteCount < tasks.length) {
+			html = html +
+				'<section>'+
+				'<h2>Completed Tasks</h2>'+
+				'<ul>';
+			for (var i = 0;i < tasks.length;i++) {
+				if (tasks[i].complete == '1') {
+					html = html +
+						'<li>'+
+						'<label>'+
+						'<input type="hidden" name="' + tasks[i].id + '" value="0" />'+
+						'<input type="checkbox" name="' + tasks[i].id + '" checked="checked" />'+
+						' <a href="/lists/' + list.id + '/' + tasks[i].id + '">' + tasks[i].name + '</a>'+
+						' [<a href="/lists/' + list.id + '/' + tasks[i].id + '/delete/confirm">x</a>]'+
+						'</label>'+
+						'</li>';
+				}
 			}
+			html = html +
+				'</ul>'+
+				'</section>';
 		}
 		html = html +
-			'</ul>'+
-			'</section>'+
 			'<input type="submit" value="Update List" />'+
 			'</form>';
 	} else {
