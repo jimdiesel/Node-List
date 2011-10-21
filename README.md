@@ -8,7 +8,7 @@ To set up the database, use the MySQL command-line utility to load the `db_confi
 
 	$ mysql < db_config.sql
 
-You will also need to set up `views/base.js` with your login credentials. Find the following lines and change the values to your MySQL username and password:
+You will also need to set up `models/base.js` with your login credentials. Find the following lines and change the values to your MySQL username and password:
  
 	client.user = 'root';
 	client.password = 'password';
