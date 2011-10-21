@@ -10,9 +10,13 @@ function build(response, request, pageData, task, listId) {
 		html = html +
 			'<nav><a href="/lists/' + listId + '">&laquo; Back</a></nav>'+
 			'<h1>' + task.name + '</h1>'+
-			'<dl>'+
-			'<dt>Note:</dt>'+
-			'<dd>' + task.note + '</dd>'+
+			'<dl>';
+		if (task.note != "") {
+			html = html +
+				'<dt>Note:</dt>'+
+				'<dd>' + task.note + '</dd>';
+		}
+		html = html +
 			'<dt>Complete:</dt>' +
 			'<dd>' + complete  + '</dd>'+
 			'<dt>Created:</dt>'+
