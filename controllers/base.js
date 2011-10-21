@@ -175,10 +175,6 @@ function sanitize(input) {
 
 	input = input.replace('>', '&gt;');
 	input = input.replace('<', '&lt;');
-	input = input.replace('\\\'', '\'');
-	input = input.replace('\'', '\\\'');
-	input = input.replace('\\\"', '\"');
-	input = input.replace('\"', '\\\"');
 
 	return input;
 }
