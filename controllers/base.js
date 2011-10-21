@@ -4,6 +4,7 @@ var userDb = require("../models/user"),
 	querystring = require("querystring"),
 	http = require("http"),
 	errorPage = require("../views/error"),
+	notFoundPage = require("../views/404"),
 	session = require("../node_modules/sesh/lib/core").magicSession();
 require("joose");
 require("joosex-namespace-depended");
@@ -135,11 +136,9 @@ function redirectToError(request, response, message) {
 }
 
 function redirectTo404(request, response) {
-	//TODO: create a 404 page similar to the error view
-	//simply serve up the 404 message for now
-	response.writeHead(404, {"Content-Type": "text/html"});
-	response.write("<h1>You done goofed - Page not found</h1>");
-	response.end();
+	var pageData = new PageData();
+	pageData.title = "Page Not Found - Node List";
+	notFoundPage.build(response, request, pageData);
 }
 
 function Validate() {
