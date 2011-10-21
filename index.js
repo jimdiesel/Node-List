@@ -100,7 +100,6 @@ router.get(/^\/_assets\//, function(request, response, path) {
 http.createServer(router).listen(8888);
 
 function serveStaticFile(request, response, filePath) {
-	console.log("Serving static file: " + filePath);
 	var ext = path.extname(filePath);
 	var contentType = "text/plain";
 
