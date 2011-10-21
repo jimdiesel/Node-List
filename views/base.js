@@ -8,6 +8,7 @@ function openPage(pageData) {
 		'<meta name="description" content="' + pageData.metaDescription + '" />'+
 		'<meta name="keywords" content="' + pageData.metaKeywords + '" />'+
 		'<link rel="stylesheet" media="screen" href="/_assets/css/site.css" />'+
+		'<link rel="shortcut icon" href="/_assets/img/favicon.ico" />'+
 		'<body>';
 	return html;
 }

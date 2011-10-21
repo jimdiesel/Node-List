@@ -1,12 +1,18 @@
 var user = require("./controllers/user");
 var list = require("./controllers/list");
 var task = require("./controllers/task");
-var http = require("http"),
-	router = require("choreographer").router();
+var http = require("http");
+var fs = require("fs");
+var path = require("path");
+var router = require("choreographer").router();
+var controllers = require("./controllers/base");
 
 router.ignoreCase = true;
 
-router.get('/', function(request, response, path) {
+router.get(/^\/_assets\//, function(request, response, path) {
+	serveStaticFile(request, response, '.' + request.url);
+})
+.get('/', function(request, response, path) {
 	user.showPageUser(response, request);
 })
 .get('/user', function(request, response, path) {
@@ -88,9 +94,47 @@ router.get('/', function(request, response, path) {
 	task.deleteTask(response, request, listId, taskId);
 })
 .notFound(function(request, response) {
-	response.writeHead(404, {"Content-Type": "text/html"});
-	response.write("<h1>You done goofed - Page not found</h1>");
-	response.end();
+	controllers.redirectTo404(request, response);
 });
 
 http.createServer(router).listen(8888);
+
+function serveStaticFile(request, response, filePath) {
+	console.log("Serving static file: " + filePath);
+	var ext = path.extname(filePath);
+	var contentType = "text/plain";
+
+	switch(ext) {
+		case '.js':
+			contentType = "text/javascript";
+			break;
+		case '.css':
+			contentType = "text/css";
+			break;
+		case '.jpg':
+			contentType = "image/jpeg";
+			break;
+		case '.png':
+			contentType = "image/png";
+			break;
+		case '.gif':
+			contentType = "image/gif";
+			break;
+	}
+
+	path.exists(filePath, function(exists) {
+		if (exists) {
+			fs.readFile(filePath, function(error, content) {
+				if (error) {
+					controllers.redirectToError(request, response, "Error serving file");
+				} else {
+					response.writeHead(200, {"Content-Type": contentType});
+					response.write(content);
+					response.end();
+				}
+			});
+		} else {
+			controllers.redirectTo404(request, response);
+		}
+	});
+}

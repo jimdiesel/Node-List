@@ -134,6 +134,14 @@ function redirectToError(request, response, message) {
 	errorPage.build(response, request, pageData);
 }
 
+function redirectTo404(request, response) {
+	//TODO: create a 404 page similar to the error view
+	//simply serve up the 404 message for now
+	response.writeHead(404, {"Content-Type": "text/html"});
+	response.write("<h1>You done goofed - Page not found</h1>");
+	response.end();
+}
+
 function Validate() {
 	this.Email = function(field) {
 		// taken from http://www.marketingtechblog.com/design/javascript-regex-emailaddress/
@@ -183,5 +191,6 @@ exports.validateTask = validateTask;
 exports.isLoggedIn = isLoggedIn;
 exports.redirectToLogin = redirectToLogin;
 exports.redirectToError = redirectToError;
+exports.redirectTo404 = redirectTo404;
 exports.Validate = Validate;
 exports.sanitize = sanitize;
