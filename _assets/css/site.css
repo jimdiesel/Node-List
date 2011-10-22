@@ -53,3 +53,18 @@ fieldset{
 h1{
 	text-shadow:0px 1px 0px #E4EDED;
 }
+
+/* Layout */
+#container{
+	width:960px;
+	margin:10px auto 0 auto;
+}
+header{
+	text-align:center;
+}
+header nav{
+	display:inline-block;
+}
+header nav a{
+	margin:0 16px;
+}
