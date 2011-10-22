@@ -54,7 +54,7 @@ function build(response, request, pageData, list, tasks) {
 				'</section>';
 		}
 		html = html +
-			'<input type="submit" value="Update List" />'+
+			'<button type="submit">Update List</button>'+
 			'</form>';
 	} else {
 		html = html +

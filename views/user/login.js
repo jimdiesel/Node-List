@@ -15,7 +15,7 @@ function build(response, request, pageData) {
 		'Password: '+
 		'<input type="password" name="password" />'+
 		'</label><br />'+
-		'<input type="submit" value="Login" />'+
+		'<button type="submit">Login</button>'+
 		'</fieldset>'+
 		'</form>'+
 		'<p>Not a user? <a href="/user/create">Create an Account</a>.</p>';
