@@ -9,7 +9,6 @@
 		"formidable": ">= 1.0.2",
 		"hash": ">= 0.06.0",
 		"joose": ">= 3.18.0",
-		//"jooseex-namespace-depended": ">= 0.17.0",
 		"mysql": ">= 0.9.1",
 		"response": ">= 0.1.0",
 		"sesh": ">= 0.1.0"
