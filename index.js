@@ -175,7 +175,8 @@ router.get(/^\/_assets\//, function(request, response, path) {
 	controllers.redirectTo404(request, response);
 });
 
-http.createServer(router).listen(8888);
+var port = process.env.PORT || 8888;
+http.createServer(router).listen(port);
 
 function serveStaticFile(request, response, filePath) {
 	var ext = path.extname(filePath);
