@@ -165,6 +165,18 @@ function Validate() {
 		} else {
 			return false;
 		}
+	},
+	this.DateFormat = function(field) {
+		var format = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+		if (format.test(field)) {
+			var dateFormat = new Date(field);
+			if (dateFormat == null || dateFormat == undefined) {
+				return false;
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 

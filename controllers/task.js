@@ -22,10 +22,15 @@ function create(response, request, listId) {
 		task.listId = listId;
 		task.name = base.sanitize(fields["name"]);
 		task.note = base.sanitize(fields["note"]);
+		task.SetDue(fields["due"]);
 
 		if (validate.Required(fields["name"]) == false) {
 			isValid = false;
 			pageData.message = "Name is required<br />";
+		}
+		if (validate.DateFormat(fields["due"]) == false) {
+			isValid = false;
+			pageData.message += "Due date is invalid<br />";
 		}
 		if (isValid == true) {
 			taskDb.create(task, function(success) {
@@ -57,10 +62,15 @@ function update(response, request, listId, taskId) {
 		task.listId = listId;
 		task.name = fields["name"];
 		task.note = fields["note"];
+		task.SetDue(fields["due"]);
 
 		if (validate.Required(fields["name"]) == false) {
 			isValid = false;
 			pageData.message = pageData.message + "Name is required<br />";
+		}
+		if (validate.DateFormat(fields["due"]) == false) {
+			isValid = false;
+			pageData.message = pageData.message + "Due Date is invalid<br />";
 		}
 		if (isValid == true) {
 			taskDb.update(task, function(success) {
@@ -145,10 +155,21 @@ function Task() {
 	this.list_id = "";
 	this.name = "";
 	this.note = "";
+	this.due = new Date();
+	this.dueFormatted = "0000-00-00";
 	this.complete = "";
 	this.order_by = "";
 	this.created = "";
 	this.modified = "";
+
+	this.SetDue = SetDue;
+
+	function SetDue(newDate) {
+		this.due = new Date(newDate);
+
+		this.dueFormatted = this.due.getFullYear() + '-' + (this.due.getMonth() + 1) + '-' + this.due.getDate();
+		console.log("New formatted date: " + this.dueFormatted);
+	}
 }
 
 exports.create = create;

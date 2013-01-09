@@ -3,7 +3,7 @@ var base = require("../base");
 function build(response, request, pageData, listId) {
 	var html = '';
 	html = html + base.openPage(pageData);
-	var html = html +
+	html = html +
 		'<nav><a href="/lists/' + listId + '">&laquo; Back</a></nav>'+
 		'<p class="message">' + pageData.message + '</p>'+
 		'<form action="/lists/' + listId + '/add" method="post">'+
@@ -16,6 +16,10 @@ function build(response, request, pageData, listId) {
 		'Note: '+
 		'<textarea name="note" rows="2" cols="20"></textarea>'+
 		'</label><br />'+
+		'<label>'+
+		'Due Date <small>(mm/dd/yyyy)</small>'+
+		'<input type="text" name="due" />'+
+		'</label>'+
 		'<button type="submit">Add Task</button>'+
 		'</fieldset>'+
 		'</form>';
