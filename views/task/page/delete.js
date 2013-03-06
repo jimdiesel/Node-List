@@ -1,4 +1,4 @@
-var base = require("../base");
+var base = require("../../base");
 
 function build(response, request, pageData, listId, task) {
 	var html = '';
