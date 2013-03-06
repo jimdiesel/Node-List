@@ -1,4 +1,4 @@
--- MySQL dump 10.11
+-- MySQL dump 10.13  Distrib 5.5.25, for osx10.6 (i386)
 --
 -- Host: localhost    Database: node_list
 -- ------------------------------------------------------
@@ -14,6 +14,10 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Not dumping tablespaces as no INFORMATION_SCHEMA.FILES table on this server
+--
 
 --
 -- Current Database: `node_list`
@@ -55,6 +59,7 @@ CREATE TABLE `tasks` (
   `list_id` bigint(20) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `note` text,
+  `due` datetime default NULL,
   `complete` tinyint(1) default '0',
   `order_by` int(11) default NULL,
   `created` datetime default NULL,
@@ -62,7 +67,7 @@ CREATE TABLE `tasks` (
   PRIMARY KEY  (`id`),
   KEY `FK_list_id` (`list_id`),
   CONSTRAINT `FK_list_id` FOREIGN KEY (`list_id`) REFERENCES `lists` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,4 +98,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-20 22:39:21
+-- Dump completed on 2013-03-06 14:34:33
