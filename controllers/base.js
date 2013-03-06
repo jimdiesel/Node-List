@@ -1,6 +1,9 @@
 var userDb = require("../models/user"),
 	listDb = require("../models/list"),
 	taskDb = require("../models/task"),
+	userController = require('./user'),
+	listController = require('./list'),
+	taskController = require('./task'),
 	querystring = require("querystring"),
 	http = require("http"),
 	errorPage = require("../views/error"),
@@ -30,6 +33,7 @@ function validateUser(request, response, redirect, callback) {
 				}
 			} else {
 				if (callback && typeof(callback) == 'function') {
+					//TODO: Return User object
 					callback(user);
 				} else {
 					return true;
@@ -64,6 +68,7 @@ function validateList(request, response, redirect, user, listId, callback) {
 					}
 				} else {
 					if (callback && typeof(callback) == 'function') {
+						//TODO: Return List object
 						callback(list);
 					} else {
 						return true;
@@ -99,7 +104,19 @@ function validateTask(request, response, redirect, user, list, taskId, callback)
 					}
 				} else {
 					if (callback && typeof(callback) == 'function') {
-						callback(task);
+						var returnTask = new taskController.Task();
+						returnTask.id = task.id;
+						returnTask.list_id = task.list_id;
+						returnTask.name = task.name;
+						returnTask.note = task.note;
+						returnTask.complete = task.complete;
+						returnTask.order_by = task.order_by;
+						returnTask.created = task.created;
+						returnTask.modified = task.modified;
+
+						returnTask.SetDue(task.due);
+
+						callback(returnTask);
 					} else {
 						return true;
 					}
@@ -167,7 +184,7 @@ function Validate() {
 		}
 	},
 	this.DateFormat = function(field) {
-		var format = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+		var format = /^(\d{2})\-(\d{2})\-(\d{4})$/;
 		if (format.test(field)) {
 			var dateFormat = new Date(field);
 			if (dateFormat == null || dateFormat == undefined) {

@@ -17,7 +17,7 @@ function build(response, request, pageData, listId) {
 		'<textarea name="note" rows="2" cols="20"></textarea>'+
 		'</label><br />'+
 		'<label>'+
-		'Due Date <small>(mm/dd/yyyy)</small>'+
+		'Due Date <small>(mm-dd-yyyy)</small>'+
 		'<input type="text" name="due" />'+
 		'</label>'+
 		'<button type="submit">Add Task</button>'+

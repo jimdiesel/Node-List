@@ -150,13 +150,15 @@ function showPageDelete(response, request, listId, taskId) {
 	});
 }
 
+//TODO: Consider putting this in the model
 function Task() {
 	this.id = "";
 	this.list_id = "";
 	this.name = "";
 	this.note = "";
 	this.due = new Date();
-	this.dueFormatted = "0000-00-00";
+	this.dueFormatted = "00-00-0000";
+	this.dueIso = "";
 	this.complete = "";
 	this.order_by = "";
 	this.created = "";
@@ -166,12 +168,29 @@ function Task() {
 
 	function SetDue(newDate) {
 		this.due = new Date(newDate);
+		
+		var month = this.due.getMonth() + 1;
+		var day = this.due.getDate();
+		var year = this.due.getFullYear();
 
-		this.dueFormatted = this.due.getFullYear() + '-' + (this.due.getMonth() + 1) + '-' + this.due.getDate();
-		console.log("New formatted date: " + this.dueFormatted);
+		if (month < 10) {
+			month = "0" + month.toString();
+		} else {
+			month = month.toString();
+		}
+		if (day < 10) {
+			day = "0" + day.toString();
+		} else {
+			day = day.toString();
+		}
+		year = year.toString();
+
+		this.dueFormatted = month + '-' + day + '-' + year;
+		this.dueIso = this.due.toISOString();
 	}
 }
 
+exports.Task = Task;
 exports.create = create;
 exports.update = update;
 exports.deleteTask = deleteTask;

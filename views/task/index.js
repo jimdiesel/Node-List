@@ -19,6 +19,8 @@ function build(response, request, pageData, task, listId) {
 		html = html +
 			'<dt>Complete:</dt>' +
 			'<dd>' + complete  + '</dd>'+
+			'<dt>Due Date:</dt>'+
+			'<dd>' + task.dueFormatted + '</dd>'+
 			'<dt>Created:</dt>'+
 			'<dd><time>' + task.created + '</time></dd>'+
 			'<dt>Last Modified:</dt>'+

@@ -20,7 +20,11 @@ function build(response, request, pageData, task, listId) {
 			'<label>'+
 			'Note: '+
 			'<textarea name="note" rows="2" cols="20">' + task.note + '</textarea>'+
-			'</label><br />'+
+			'</label>'+
+			'<label><br />'+
+			'Due Date <small>(mm-dd-yyyy)</small>'+
+			'<input type="text" name="due" value="' + task.dueFormatted + '" />'+
+			'</label>'+
 			'<button type="submit">Update Task</button>'+
 			'</fieldset>'+
 			'</form>';

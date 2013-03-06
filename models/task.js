@@ -4,7 +4,7 @@ function create(task, callback) {
 	var client = base.init();
 	// TODO: currently assigning order_by to 0
 	// modify once dynamic orders are added
-	var values = [task.listId, task.name, task.note, task.dueFormatted, "0"];
+	var values = [task.listId, task.name, task.note, task.dueIso, "0"];
 	client.query('INSERT INTO tasks (list_id, name, note, due, complete, created, modified) VALUES (?, ?, ?, ?, ?, NOW(), NOW())', values, function(error, results) {
 		if (error) {
 			console.log("Error creating task: " + error.message);
@@ -20,8 +20,8 @@ function create(task, callback) {
 
 function update(task, callback) {
 	var client = base.init();
-	var values = [task.name, task.note, task.id];
-	client.query('UPDATE tasks SET name = ?, note = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
+	var values = [task.name, task.note, task.dueIso, task.id];
+	client.query('UPDATE tasks SET name = ?, note = ?, due = ?, modified = NOW() WHERE id = ?', values, function(error, results) {
 		if (error) {
 			console.log("Error updating task: " + error.message);
 			client.end();
@@ -82,6 +82,8 @@ function selectById(id, callback) {
 	client.query('SELECT id, list_id, name, note, complete, DATE_FORMAT(due, \'%c/%e/%Y\') as due, order_by, DATE_FORMAT(created, \'%c/%e/%Y %h:%i%p\') as created, DATE_FORMAT(modified, \'%c/%e/%Y %h:%i%p\') as modified FROM tasks WHERE id = ?', values, function(error, results) {
 		if (error) {
 			console.log("Error selecting task: " + error.message);
+			client.end();
+			return;
 		}
 		if (results.length > 0) {
 			task = results[0];
