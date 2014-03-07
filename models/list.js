@@ -13,7 +13,6 @@ function create(list, user_id, callback) {
 		console.log("Id inserted: " + results.insertId);
 		list.id = results.insertId;
 		if (callback && typeof(callback) == "function") {
-			client.end();
 			callback(list);
 		}
 	});
@@ -30,7 +29,6 @@ function update(list, callback) {
 		}
 		console.log("Updated: " + results.affectedRows + " row(s)");
 		if (callback && typeof(callback) == "function") {
-			client.end();
 			callback(true);
 		}
 	});
@@ -47,7 +45,6 @@ function deleteById(id, callback) {
 		}
 		console.log("Deleted: " + results.affectedRows + " row(s)");
 		if (callback && typeof(callback) == "function") {
-			client.end();
 			callback(true);
 		}
 	});
@@ -67,7 +64,6 @@ function selectById(id, callback) {
 			list = results[0];
 		}
 		if (callback && typeof(callback) == "function") {
-			client.end();
 			callback(list);
 		}
 	});
@@ -88,7 +84,6 @@ function selectByUserId(userId, callback) {
 			lists = results;
 		}
 		if (callback && typeof(callback) == "function") {
-			client.end();
 			callback(lists);
 		}
 	});

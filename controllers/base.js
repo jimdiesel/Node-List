@@ -8,10 +8,11 @@ var userDb = require("../models/user"),
 	http = require("http"),
 	errorPage = require("../views/error"),
 	notFoundPage = require("../views/404"),
-	session = require("../node_modules/sesh/lib/core").magicSession();
-require("joose");
-require("joosex-namespace-depended");
-require("hash");
+	session = require("../node_modules/sesh/lib/core").magicSession(),
+	password_hash = require("password-hash");
+//require("joose");
+//require("joosex-namespace-depended");
+//require("hash");
 
 function PageData() {
 	this.bodyClass = '';

@@ -2,28 +2,30 @@
 // http://www.giantflyingsaucer.com/blog/?p=2596
 
 var sys = require("sys");
-var Client = require("mysql").Client;
+var Client = require("mysql");
+console.log("Client:");
+console.log(Client);
 
 function init() {
-	var client = new Client();
+	var client = Client;
 
-	client.user = 'root';
-	client.password = 'password';
+	var user = 'node_list';
+	var password = 'd!rty4ndst1nk1n';
 
-	client.connect(function(error, results) {
-		if(error) {
-			console.log("Connection Error: " + error.message);
-			return;
-		}
+	var connection = client.createConnection({
+	    host: 'localhost',
+	    user: user,
+	    password: password
 	});
-	client.query("USE node_list", function(error, results) {
+	connection.connect();
+	connection.query("USE node_list", function(error, results) {
 		if(error) {
 			console.log("Could not connect to database: " + error.message);
-			client.end();
+			connection.end();
 			return;
 		}
 	});
-	return client;
+	return connection;
 }
 
 exports.init = init;

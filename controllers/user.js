@@ -8,10 +8,11 @@ var querystring = require("querystring"),
 	userDb = require("../models/user"),
 	base = require("./base"),
 	http = require("http"),
-	session = require("../node_modules/sesh/lib/core").magicSession();
-require("joose");
-require("joosex-namespace-depended");
-require("hash");
+	session = require("../node_modules/sesh/lib/core").magicSession(),
+	password_hash = require("password-hash");
+//require("joose");
+//require("joosex-namespace-depended");
+//require("hash");
 
 function login(response, request) {
 	var pageData = new base.PageData();
@@ -24,7 +25,9 @@ function login(response, request) {
 			if (user == null || user == 'undefined') {
 				pageData.message = "Email address does not exist. Please try another email address.";
 				loginPage.build(response, request, pageData);
-			} else if (Hash.sha1(fields["password"]) != user.password) {
+			} else if (!password_hash.verify(fields["password"], user.password)) {
+			    console.log("User Password: "+user.password);
+			    console.log("Entered Password: "+fields["password"]);
 				pageData.message = "Password is incorrect. Please try again.";
 				loginPage.build(response, request, pageData);
 			} else {
@@ -92,6 +95,7 @@ function update(response, request) {
 }
 
 function create(response, request) {
+    console.log('creating new user');
 	var pageData = new base.PageData();
 	var user = new User();
 	var form = new formidable.IncomingForm();
@@ -102,7 +106,7 @@ function create(response, request) {
 		var isValid = true;
 
 		user.email = base.sanitize(fields["email"]);
-		user.password = Hash.sha1(fields["password"]);
+		user.password = password_hash.generate(fields["password"]);
 		user.name = base.sanitize(fields["name"]);
 
 		if (validate.Required(user.name) == false) {
